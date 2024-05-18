@@ -1,29 +1,9 @@
 import { PlaceIcon } from '@/components/place'
+import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
 import { places } from '@/mocks'
-import { PlaceAccessibility, PlaceType } from '@/types'
+import { Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { MdAccessibleForward } from 'react-icons/md'
-
-type Place = {
-  name: string
-  address: string
-  type: PlaceType
-  accessibility: PlaceAccessibility
-}
-
-const accessibilityLabelMap = {
-  [PlaceAccessibility.compliant]: 'Compliant',
-  [PlaceAccessibility.non_compliant]: 'Non Compliant',
-  [PlaceAccessibility.partially_compliant]: 'Partially',
-  [PlaceAccessibility.unknown]: 'Unknown',
-}
-
-const accessibilityColorMap = {
-  [PlaceAccessibility.compliant]: 'green',
-  [PlaceAccessibility.partially_compliant]: 'yellow',
-  [PlaceAccessibility.non_compliant]: 'red',
-  [PlaceAccessibility.unknown]: 'black',
-}
 
 type PlaceItemProps = {
   place: Place
@@ -49,12 +29,12 @@ export const PlaceItem = ({
           h={40}
           p={8}
           c="white"
-          bg={accessibilityColorMap[accessibility]}
+          bg={AccessibilityColorMap[accessibility]}
           style={{ borderRadius: 10000 }}
         >
           <MdAccessibleForward size={24} />
         </Box>
-        <Text>{accessibilityLabelMap[accessibility]}</Text>
+        <Text>{AccessibilityLabelMap[accessibility]}</Text>
         <Text>•</Text>
         <Text>4 features</Text>
       </Group>

@@ -18,3 +18,7 @@ a:active,
 .animated:active {
   transform: scale(0.95);
 }
+
+svg {
+  display: block;
+}

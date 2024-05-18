@@ -15,3 +15,12 @@ export enum PlaceAccessibility {
   partially_compliant = 2,
   compliant = 3,
 }
+
+export type Place = {
+  name: string
+  address: string
+  type: PlaceType
+  accessibility: PlaceAccessibility
+  lng: number
+  lat: number
+}
