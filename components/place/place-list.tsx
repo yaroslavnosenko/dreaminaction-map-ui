@@ -19,10 +19,10 @@ const accessibilityLabelMap = {
 }
 
 const accessibilityColorMap = {
-  [PlaceAccessibility.compliant]: '#52c2b4',
-  [PlaceAccessibility.partially_compliant]: '#f2e25e',
-  [PlaceAccessibility.non_compliant]: '#e48277',
-  [PlaceAccessibility.unknown]: '#000000',
+  [PlaceAccessibility.compliant]: 'green',
+  [PlaceAccessibility.partially_compliant]: 'yellow',
+  [PlaceAccessibility.non_compliant]: 'red',
+  [PlaceAccessibility.unknown]: 'black',
 }
 
 type PlaceItemProps = {
@@ -59,27 +59,8 @@ export const PlaceItem = ({
         <Text>4 features</Text>
       </Group>
     </Box>
-    // <div className="flex flex-col gap-3 cursor-pointer group transition-all active:scale-95 hover:scale-105">
-    //   <div className="flex items-center gap-3 group-hover:underline underline-offset-4">
-    //     <PlaceIcon placeType={type} />
-    //     <h3 className="text-xl">{name}</h3>
-    //   </div>
-    //   <p className="opacity-70">{address}</p>
-    //   <div className="flex gap-3 items-center">
-    //     <AccessibilityLabel accessibility={accessibility} />
-    //     <p>•</p>
-    //     <p className="text-sm">3 features</p>
-    //   </div>
-    // </div>
   )
 }
 
-export const PlaceList = () => {
-  return (
-    <>
-      {places.map((place, idx) => (
-        <PlaceItem place={place} key={idx} />
-      ))}
-    </>
-  )
-}
+export const renderList = () =>
+  places.map((place, idx) => <PlaceItem place={place} key={idx} />)
