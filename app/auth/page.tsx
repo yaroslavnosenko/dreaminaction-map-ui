@@ -14,7 +14,7 @@ import { MdArrowBack } from 'react-icons/md'
 
 export default function Auth() {
   return (
-    <Center mih="100vh" p="lg">
+    <Center mih="100svh" p="lg">
       <Box maw="24rem">
         <Anchor component={Link} href="/" w={56}>
           <Image
