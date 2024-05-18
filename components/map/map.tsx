@@ -1,7 +1,6 @@
 import { PlaceIcon } from '@/components/place'
 import { fontFamily } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
-import { places } from '@/mocks'
 import { Accessibility, Category, DeepPartial, Place } from '@/types'
 import { Paper } from '@mantine/core'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -45,9 +44,12 @@ const Pin = ({ place, active, onClick }: PinProps) => {
   )
 }
 
-export const Map = () => {
+type MapProps = {
+  places: PlaceType[]
+}
+
+export const Map = ({ places }: MapProps) => {
   const [active, setActive] = useState<PlaceType | null>(null)
-  const _places = places
   const [viewport, setViewport] = useState({
     latitude: 48.621025,
     longitude: 22.288229,
@@ -77,7 +79,7 @@ export const Map = () => {
       }}
       {...viewport}
     >
-      {_places.map((place) => (
+      {places.map((place) => (
         <Pin
           onClick={onPinClick}
           active={place.name === active?.name}

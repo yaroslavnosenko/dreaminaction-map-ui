@@ -3,11 +3,14 @@
 import { Header, Map } from '@/components/map'
 import { renderList } from '@/components/place'
 import { DStack } from '@/components/ui'
+import { places as _places } from '@/mocks'
 import { Box, Flex, Group, Text, Title } from '@mantine/core'
 
 import classes from '@/app/page.module.css'
 
 export default function Home() {
+  const places = _places
+
   return (
     <Flex className={classes['page']}>
       <Box component="nav" className={classes['sidebar']}>
@@ -21,14 +24,14 @@ export default function Home() {
           </Title>
         </Group>
         <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
-          {renderList()}
+          {renderList(places)}
         </DStack>
         <Text opacity={0.7} pt="2xl">
           End of the List
         </Text>
       </Box>
       <Box component="aside" className={classes['map']}>
-        <Map />
+        <Map places={places} />
       </Box>
     </Flex>
   )

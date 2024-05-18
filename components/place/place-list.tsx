@@ -1,12 +1,13 @@
 import { PlaceIcon } from '@/components/place'
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
-import { places } from '@/mocks'
 import { Accessibility, Category, DeepPartial, Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { MdAccessibleForward } from 'react-icons/md'
 
+type PlaceType = DeepPartial<Place>
+
 type PlaceItemProps = {
-  place: DeepPartial<Place>
+  place: PlaceType
 }
 
 export const PlaceItem = ({
@@ -15,6 +16,7 @@ export const PlaceItem = ({
     address,
     category = Category.Sites,
     accessibility = Accessibility.Unknown,
+    featuresCount = 0,
   },
 }: PlaceItemProps) => {
   return (
@@ -41,11 +43,11 @@ export const PlaceItem = ({
         </Box>
         <Text>{AccessibilityLabelMap[accessibility]}</Text>
         <Text>•</Text>
-        <Text>4 features</Text>
+        <Text>{featuresCount} features</Text>
       </Group>
     </Box>
   )
 }
 
-export const renderList = () =>
+export const renderList = (places: PlaceType[]) =>
   places.map((place) => <PlaceItem place={place} key={place.id} />)
