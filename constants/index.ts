@@ -1,15 +1,15 @@
-import { PlaceAccessibility } from '@/types'
+import { Accessibility } from '@/types'
 
 export const AccessibilityLabelMap = {
-  [PlaceAccessibility.compliant]: 'Compliant',
-  [PlaceAccessibility.non_compliant]: 'Non Compliant',
-  [PlaceAccessibility.partially_compliant]: 'Partially',
-  [PlaceAccessibility.unknown]: 'Unknown',
+  [Accessibility.Compliant]: 'Compliant',
+  [Accessibility.NonCompliant]: 'Non Compliant',
+  [Accessibility.PartiallyCompliant]: 'Partially',
+  [Accessibility.Unknown]: 'Unknown',
 }
 
 export const AccessibilityColorMap = {
-  [PlaceAccessibility.compliant]: 'green',
-  [PlaceAccessibility.partially_compliant]: 'yellow',
-  [PlaceAccessibility.non_compliant]: 'red',
-  [PlaceAccessibility.unknown]: 'black',
+  [Accessibility.Compliant]: 'green',
+  [Accessibility.PartiallyCompliant]: 'yellow',
+  [Accessibility.NonCompliant]: 'red',
+  [Accessibility.Unknown]: 'black',
 }

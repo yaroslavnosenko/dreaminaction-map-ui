@@ -1,21 +1,26 @@
 import { PlaceIcon } from '@/components/place'
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
 import { places } from '@/mocks'
-import { Place } from '@/types'
+import { Accessibility, Category, DeepPartial, Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { MdAccessibleForward } from 'react-icons/md'
 
 type PlaceItemProps = {
-  place: Place
+  place: DeepPartial<Place>
 }
 
 export const PlaceItem = ({
-  place: { name, address, type, accessibility },
+  place: {
+    name,
+    address,
+    category = Category.Sites,
+    accessibility = Accessibility.Unknown,
+  },
 }: PlaceItemProps) => {
   return (
     <Box className="animated">
       <Group gap="sm">
-        <PlaceIcon placeType={type} />
+        <PlaceIcon category={category} />
         <Title order={3} fw={500}>
           {name}
         </Title>
@@ -43,4 +48,4 @@ export const PlaceItem = ({
 }
 
 export const renderList = () =>
-  places.map((place, idx) => <PlaceItem place={place} key={idx} />)
+  places.map((place) => <PlaceItem place={place} key={place.id} />)

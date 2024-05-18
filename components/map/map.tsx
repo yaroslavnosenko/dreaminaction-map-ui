@@ -2,42 +2,51 @@ import { PlaceIcon } from '@/components/place'
 import { fontFamily } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
 import { places } from '@/mocks'
-import { Place } from '@/types'
+import { Accessibility, Category, DeepPartial, Place } from '@/types'
 import { Paper } from '@mantine/core'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useState } from 'react'
 import MapGL, { Marker } from 'react-map-gl'
 
+type PlaceType = DeepPartial<Place>
+
 type PinProps = {
-  onClick: (place: Place) => void
-  place: Place
+  onClick: (place: PlaceType) => void
+  place: PlaceType
   active: boolean
 }
 
 const Pin = ({ place, active, onClick }: PinProps) => {
+  const {
+    lat = 0,
+    lng = 0,
+    accessibility = Accessibility.Unknown,
+    category = Category.Sites,
+  } = place
+
   return (
     <Marker
       onClick={() => onClick(place)}
-      longitude={place.lng}
-      latitude={place.lat}
+      longitude={lng}
+      latitude={lat}
       anchor="center"
     >
       <Paper
         className="animated"
-        bg={AccessibilityColorMap[place.accessibility]}
+        bg={AccessibilityColorMap[accessibility]}
         c="white"
         p={active ? 24 : 12}
         shadow="xl"
         radius="xl"
       >
-        <PlaceIcon placeType={place.type} />
+        <PlaceIcon category={category} />
       </Paper>
     </Marker>
   )
 }
 
 export const Map = () => {
-  const [active, setActive] = useState<Place | null>(null)
+  const [active, setActive] = useState<PlaceType | null>(null)
   const _places = places
   const [viewport, setViewport] = useState({
     latitude: 48.621025,
@@ -45,12 +54,13 @@ export const Map = () => {
     zoom: 12,
   })
 
-  const onPinClick = (place: Place) => {
+  const onPinClick = (place: PlaceType) => {
+    const { lat = 0, lng = 0 } = place
     setActive(place)
     setViewport((prev) => ({
       ...prev,
-      latitude: place.lat,
-      longitude: place.lng,
+      latitude: lat,
+      longitude: lng,
     }))
   }
 
@@ -72,7 +82,7 @@ export const Map = () => {
           onClick={onPinClick}
           active={place.name === active?.name}
           place={place}
-          key={place.name}
+          key={place.id}
         />
       ))}
     </MapGL>

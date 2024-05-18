@@ -1,4 +1,4 @@
-import { PlaceType } from '@/types'
+import { Category } from '@/types'
 import {
   MdAccountBalance,
   MdCoffee,
@@ -11,20 +11,20 @@ import {
 } from 'react-icons/md'
 
 const iconsMap = {
-  [PlaceType.groceries]: <MdShoppingCart size={24} />,
-  [PlaceType.shopping]: <MdShoppingBag size={24} />,
-  [PlaceType.food]: <MdRestaurant size={24} />,
-  [PlaceType.drinks]: <MdCoffee size={24} />,
-  [PlaceType.services]: <MdAccountBalance size={24} />,
-  [PlaceType.health]: <MdFavorite size={24} />,
-  [PlaceType.hotels]: <MdHotel size={24} />,
-  [PlaceType.transport]: <MdDirectionsBus size={24} />,
+  [Category.Groceries]: <MdShoppingCart size={24} />,
+  [Category.Shopping]: <MdShoppingBag size={24} />,
+  [Category.Food]: <MdRestaurant size={24} />,
+  [Category.Drinks]: <MdCoffee size={24} />,
+  [Category.Sites]: <MdAccountBalance size={24} />,
+  [Category.Health]: <MdFavorite size={24} />,
+  [Category.Hotels]: <MdHotel size={24} />,
+  [Category.Transport]: <MdDirectionsBus size={24} />,
 }
 
 type PlaceIconProps = {
-  placeType: PlaceType
+  category: Category
 }
 
-export const PlaceIcon = ({ placeType }: PlaceIconProps) => {
-  return iconsMap[placeType]
+export const PlaceIcon = ({ category }: PlaceIconProps) => {
+  return iconsMap[category]
 }
