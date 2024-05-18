@@ -13,7 +13,7 @@ export default function Home() {
         <Header />
       </Box>
       <Box component="main" className={classes['main']}>
-        <Group h={56} mb={48} justify="space-between">
+        <Group h={56} mb={24} justify="space-between">
           <Title order={2}>Uzhhorod</Title>
           <Title opacity={0.7} order={2} fw={500}>
             6

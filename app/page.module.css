@@ -26,13 +26,8 @@
   order: 3;
 
   @media (max-width: $mantine-breakpoint-xs) {
-    aspect-ratio: 1;
-    padding: 24px;
+    height: 280px;
     flex: initial;
     order: 1;
-
-    canvas {
-      border-radius: 24px;
-    }
   }
 }
