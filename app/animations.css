@@ -1,5 +1,4 @@
 button,
-a,
 .animated {
   transition: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -8,13 +7,13 @@ a,
 }
 
 button:hover,
-a:hover,
 .animated:hover {
-  transform: scale(1.05);
+  @media (min-width: $mantine-breakpoint-xs) {
+    transform: scale(1.05);
+  }
 }
 
 button:active,
-a:active,
 .animated:active {
   transform: scale(0.95);
 }

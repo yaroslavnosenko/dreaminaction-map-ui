@@ -8,6 +8,8 @@ export const places: DeepPartial<Place>[] = [
     category: Category.Sites,
     accessibility: Accessibility.PartiallyCompliant,
     featuresCount: 9,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae diam sit amet tortor interdum mollis. Donec elementum, velit vel tristique suscipit, metus ante euismod ante, eget eleifend lacus tortor vel nibh.',
     lat: 48.62,
     lng: 22.28,
   },

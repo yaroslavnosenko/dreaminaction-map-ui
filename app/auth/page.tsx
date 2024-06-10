@@ -68,6 +68,7 @@ export default function Auth() {
           href={'/'}
           component={Link}
           variant="transparent"
+          className="animated"
         >
           Back to Map
         </Button>

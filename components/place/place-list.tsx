@@ -1,5 +1,5 @@
 import { PlaceIcon } from '@/components/place'
-import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
+import { AccessibilityColorMap } from '@/constants'
 import { Accessibility, Category, DeepPartial, Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { MdAccessibleForward } from 'react-icons/md'
@@ -8,19 +8,19 @@ type PlaceType = DeepPartial<Place>
 
 type PlaceItemProps = {
   place: PlaceType
+  onClick: (place: PlaceType) => void
 }
 
-export const PlaceItem = ({
-  place: {
+export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
+  const {
     name,
     address,
     category = Category.Sites,
     accessibility = Accessibility.Unknown,
     featuresCount = 0,
-  },
-}: PlaceItemProps) => {
+  } = place
   return (
-    <Box className="animated">
+    <Box onClick={() => onClick(place)} className="animated">
       <Group gap="sm">
         <PlaceIcon category={category} />
         <Title order={3} fw={500}>
@@ -41,7 +41,7 @@ export const PlaceItem = ({
         >
           <MdAccessibleForward size={24} />
         </Box>
-        <Text>{AccessibilityLabelMap[accessibility]}</Text>
+        <Text>{accessibility}</Text>
         <Text>•</Text>
         <Text>{featuresCount} features</Text>
       </Group>
@@ -49,5 +49,10 @@ export const PlaceItem = ({
   )
 }
 
-export const renderList = (places: PlaceType[]) =>
-  places.map((place) => <PlaceItem place={place} key={place.id} />)
+export const renderList = (
+  places: PlaceType[],
+  onClick: (place: PlaceType) => void
+) =>
+  places.map((place) => (
+    <PlaceItem place={place} onClick={onClick} key={place.id} />
+  ))

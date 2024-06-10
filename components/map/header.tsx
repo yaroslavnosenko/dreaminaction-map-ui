@@ -6,7 +6,7 @@ import { MdOutlineKey } from 'react-icons/md'
 export const Header = () => {
   return (
     <Flex justify="space-between" align="center">
-      <Anchor component={Link} href="/" w={56}>
+      <Anchor component={Link} href="/" w={56} h={56}>
         <Image
           className="animated"
           priority
@@ -17,6 +17,7 @@ export const Header = () => {
         />
       </Anchor>
       <Button
+        className="animated"
         component={Link}
         color="black"
         variant="filled"

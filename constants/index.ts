@@ -1,11 +1,4 @@
-import { Accessibility } from '@/types'
-
-export const AccessibilityLabelMap = {
-  [Accessibility.Compliant]: 'Compliant',
-  [Accessibility.NonCompliant]: 'Non Compliant',
-  [Accessibility.PartiallyCompliant]: 'Partially',
-  [Accessibility.Unknown]: 'Unknown',
-}
+import { Accessibility, Category } from '@/types'
 
 export const AccessibilityColorMap = {
   [Accessibility.Compliant]: 'green',
@@ -13,3 +6,24 @@ export const AccessibilityColorMap = {
   [Accessibility.NonCompliant]: 'red',
   [Accessibility.Unknown]: 'black',
 }
+export const FilterAccessibilityArray = [
+  Accessibility.Compliant,
+  Accessibility.PartiallyCompliant,
+  Accessibility.NonCompliant,
+]
+
+export const AccessibilityArray = [
+  ...FilterAccessibilityArray,
+  Accessibility.Unknown,
+]
+
+export const CategoriesArray = [
+  Category.Food,
+  Category.Drinks,
+  Category.Groceries,
+  Category.Shopping,
+  Category.Sites,
+  Category.Hotels,
+  Category.Health,
+  Category.Transport,
+]
