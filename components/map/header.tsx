@@ -1,9 +1,13 @@
+import { StorageKeys } from '@/constants'
 import { Anchor, Button, Flex } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MdOutlineKey } from 'react-icons/md'
+import { MdOutlineAccountCircle, MdOutlineKey } from 'react-icons/md'
+import useLocalStorageState from 'use-local-storage-state'
 
 export const Header = () => {
+  const [auth] = useLocalStorageState<string>(StorageKeys.Auth)
+
   return (
     <Flex justify="space-between" align="center">
       <Anchor component={Link} href="/" w={56} h={56}>
@@ -16,18 +20,34 @@ export const Header = () => {
           alt={'logo'}
         />
       </Anchor>
-      <Button
-        className="animated"
-        component={Link}
-        color="black"
-        variant="filled"
-        radius="xl"
-        size="md"
-        href="/auth"
-        leftSection={<MdOutlineKey size={24} />}
-      >
-        Sign In
-      </Button>
+      {!auth && (
+        <Button
+          className="animated"
+          component={Link}
+          color="black"
+          variant="filled"
+          radius="xl"
+          size="md"
+          href="/auth"
+          leftSection={<MdOutlineKey size={24} />}
+        >
+          Sign In
+        </Button>
+      )}
+      {auth && (
+        <Button
+          className="animated"
+          component={Link}
+          color="black"
+          variant="filled"
+          radius="xl"
+          size="md"
+          href="/account"
+          leftSection={<MdOutlineAccountCircle size={24} />}
+        >
+          Profile
+        </Button>
+      )}
     </Flex>
   )
 }

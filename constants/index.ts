@@ -27,3 +27,9 @@ export const CategoriesArray = [
   Category.Health,
   Category.Transport,
 ]
+
+export enum StorageKeys {
+  Auth = 'auth-token',
+  FilterCategories = 'filter-categories',
+  FilterAccessibilities = 'filter-accessibilities',
+}

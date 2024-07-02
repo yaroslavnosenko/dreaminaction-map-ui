@@ -1,6 +1,13 @@
-import { CategoriesArray, FilterAccessibilityArray } from '@/constants'
+import { PropsWithChildren, createContext, useContext } from 'react'
+
+import {
+  CategoriesArray,
+  FilterAccessibilityArray,
+  StorageKeys,
+} from '@/constants'
+
 import { Accessibility, Category } from '@/types'
-import { PropsWithChildren, createContext, useContext, useState } from 'react'
+import useLocalStorageState from 'use-local-storage-state'
 
 type FilterContextType = {
   categories: Category[]
@@ -17,10 +24,15 @@ export const FilterContext = createContext<FilterContextType>({
 })
 
 export const FilterProvider = ({ children }: PropsWithChildren) => {
-  const [categories, setCategories] = useState<Category[]>(CategoriesArray)
-  const [accessibilities, setAccessibilities] = useState<Accessibility[]>(
-    FilterAccessibilityArray
+  const [categories, setCategories] = useLocalStorageState<Category[]>(
+    StorageKeys.FilterCategories,
+    { defaultValue: CategoriesArray }
   )
+  const [accessibilities, setAccessibilities] = useLocalStorageState<
+    Accessibility[]
+  >(StorageKeys.FilterAccessibilities, {
+    defaultValue: FilterAccessibilityArray,
+  })
 
   const toggleCategory = (category: Category) =>
     setCategories(

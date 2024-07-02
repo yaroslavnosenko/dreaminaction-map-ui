@@ -1,0 +1,29 @@
+.layout {
+  min-height: 100vh;
+  max-height: 100vh;
+  @media (max-width: $mantine-breakpoint-xs) {
+    flex-direction: column;
+    max-height: initial;
+  }
+}
+
+.sidebar,
+.main {
+  padding: var(--mantine-spacing-lg);
+
+  @media (min-width: $mantine-breakpoint-xs) {
+    border-right: 1px solid #f1f1f1;
+    padding: var(--mantine-spacing-2xl);
+  }
+}
+
+.sidebar {
+  @media (min-width: $mantine-breakpoint-xs) {
+    width: 22rem;
+  }
+}
+
+.main {
+  overflow-y: scroll;
+  flex: 1;
+}

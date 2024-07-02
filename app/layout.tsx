@@ -1,9 +1,12 @@
 import { font, theme } from '@/configs'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
-import type { Metadata } from 'next'
+import { ToastContainer } from 'react-toastify'
 
 import '@/app/animations.css'
 import '@mantine/core/styles.css'
+import 'react-toastify/dist/ReactToastify.css'
+
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Map | Dream In Action',
@@ -20,7 +23,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          {children}
+          <ToastContainer />
+        </MantineProvider>
       </body>
     </html>
   )

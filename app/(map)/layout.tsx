@@ -1,18 +1,17 @@
 'use client'
 
+import { PropsWithChildren } from 'react'
+
 import { Filter, Footer, Header, Map, MapContext } from '@/components/map'
 import { places as _places } from '@/mocks'
 import { Box, Flex, Stack } from '@mantine/core'
 
-import classes from '@/app/(map)/layout.module.css'
 import { FilterProvider } from '@/components/map/filter-context'
+import { DeepPartial, Place } from '@/types'
+import classes from './layout.module.css'
 
-type MapLayoutProps = {
-  children: React.ReactNode
-}
-
-export default function MapLayout({ children }: MapLayoutProps) {
-  const places = _places
+export default function MapLayout({ children }: PropsWithChildren) {
+  const places: DeepPartial<Place>[] = _places
 
   return (
     <MapContext.Provider value={{ places }}>
