@@ -5,14 +5,17 @@ export const Menu = () => {
   return (
     <Stack mt="2xl" gap="md">
       <Anchor component={Link} href="/account/places">
-        <Title order={4}>Places</Title>
+        <Title order={4}>My Places</Title>
       </Anchor>
       <Anchor component={Link} href="/account/features">
         <Title order={4}>Features</Title>
       </Anchor>
       <Divider my="xl" />
       <Anchor component={Link} href="/account/all-places">
-        <Title order={4}>All Places</Title>
+        <Title order={4}>Places</Title>
+      </Anchor>
+      <Anchor component={Link} href="/account/users">
+        <Title order={4}>Users</Title>
       </Anchor>
       <Divider my="xl" />
       <Anchor component={Link} href="/">

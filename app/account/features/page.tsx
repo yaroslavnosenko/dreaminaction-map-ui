@@ -20,10 +20,14 @@ export default function Features() {
           New
         </Button>
       </Group>
-      <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
+      <Title fw="normal" order={4} opacity={0.7}>
+        10 items
+      </Title>
+      <Box h={1} bg="#f1f1f1" my="xl" />
+      <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="sm">
         {features.map(({ id, name }) => (
           <Group
-            mih={32}
+            mih={48}
             gap={0}
             key={id}
             justify="space-between"
