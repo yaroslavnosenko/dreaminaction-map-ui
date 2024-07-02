@@ -55,3 +55,16 @@ export const places: DeepPartial<Place>[] = [
     lng: 22.29,
   },
 ]
+
+export const features = [
+  { id: '035f4c6e-a878-474f-8606-5a8dc32c1382', name: 'Automatic doors' },
+  {
+    id: '9d063120-eb4c-4b95-9385-81f76f8c3de0',
+    name: 'Designated accessible parking spaces',
+  },
+  {
+    id: 'cf6b9ca6-a5a7-436f-b714-8ea6e6822cd9',
+    name: 'Elevators with Braille and auditory signals',
+  },
+  { id: '686ffb09-e15f-4673-af26-e29f91eba34c', name: 'Wheelchair ramps' },
+]
