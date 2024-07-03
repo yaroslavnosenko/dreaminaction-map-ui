@@ -1,13 +1,16 @@
+import { useContext, useRef } from 'react'
+
+import { Paper } from '@mantine/core'
+import MapGL, { MapRef, Marker } from 'react-map-gl'
+
+import { MapContext } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { fontFamily } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
-import { Accessibility, Category, DeepPartial, Place } from '@/types'
-import { Paper } from '@mantine/core'
-import 'mapbox-gl/dist/mapbox-gl.css'
-import { useState } from 'react'
-import MapGL, { Marker } from 'react-map-gl'
 
-type PlaceType = DeepPartial<Place>
+import { Accessibility, Category, PlaceType } from '@/types'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import { useRouter } from 'next/navigation'
 
 type PinProps = {
   onClick: (place: PlaceType) => void
@@ -44,30 +47,27 @@ const Pin = ({ place, active, onClick }: PinProps) => {
   )
 }
 
-type MapProps = {
-  places: PlaceType[]
-}
+export const Map = () => {
+  const { places, initMapPosition, activePlace } = useContext(MapContext)
+  const mapRef = useRef<MapRef>(null)
+  const router = useRouter()
 
-export const Map = ({ places }: MapProps) => {
-  const [active, setActive] = useState<PlaceType | null>(null)
-  const [viewport, setViewport] = useState({
-    latitude: 48.621025,
-    longitude: 22.288229,
-    zoom: 12,
-  })
+  const onMoveEnd = () => {}
 
-  const onPinClick = (place: PlaceType) => {
-    const { lat = 0, lng = 0 } = place
-    setActive(place)
-    setViewport((prev) => ({
-      ...prev,
-      latitude: lat,
-      longitude: lng,
-    }))
+  const updateMap = () => {
+    if (initMapPosition) {
+      const { lat, lng } = initMapPosition
+      mapRef.current?.flyTo({
+        center: { lat, lng },
+        zoom: 12,
+        speed: 20,
+      })
+    }
   }
 
   return (
     <MapGL
+      ref={mapRef}
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       localFontFamily={fontFamily}
       style={{ width: '100%', height: '100%' }}
@@ -76,13 +76,14 @@ export const Map = ({ places }: MapProps) => {
         document
           .querySelector('button.mapboxgl-ctrl-attrib-button')
           ?.setAttribute('aria-label', 'info')
+        updateMap()
       }}
-      {...viewport}
+      onMoveEnd={onMoveEnd}
     >
       {places.map((place) => (
         <Pin
-          onClick={onPinClick}
-          active={place.name === active?.name}
+          onClick={() => router.push('/' + place.id)}
+          active={place.id === activePlace?.id}
           place={place}
           key={place.id}
         />

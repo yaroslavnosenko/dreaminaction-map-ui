@@ -1,12 +1,12 @@
 'use client'
+import { MapContext } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { AccessibilityColorMap } from '@/constants'
-import { places } from '@/mocks'
 import { Accessibility, Category } from '@/types'
 import { Box, Button, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import {
   MdAccessibleForward,
   MdOutlineArrowBack,
@@ -14,6 +14,8 @@ import {
 } from 'react-icons/md'
 
 export default function MapPage() {
+  const { setActivePlace, setInitMapPosition, setPlaces, places } =
+    useContext(MapContext)
   const router = useRouter()
   const { id } = useParams()
   const place = places.find((place) => place.id === id)
@@ -21,13 +23,18 @@ export default function MapPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [])
+    if (place) {
+      setActivePlace(place)
+      setInitMapPosition({ lat: place.lat!, lng: place.lng! })
+      // setPlaces([...places.filter((item) => item.id !== place.id), place])
+    }
+  }, [place, places, setActivePlace, setInitMapPosition, setPlaces])
 
   return (
     <>
       <Group h={56} mb="2xl" justify="space-between">
         <Button
-          onClick={router.back}
+          onClick={() => router.push('/')}
           color="black"
           variant="transparent"
           radius="xl"

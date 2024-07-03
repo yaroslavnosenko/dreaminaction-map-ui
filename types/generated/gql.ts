@@ -58,8 +58,10 @@ export type FeatureInput = {
 };
 
 export type LocationInput = {
-  lat: Scalars['Float']['input'];
-  lng: Scalars['Float']['input'];
+  neLat: Scalars['Float']['input'];
+  neLng: Scalars['Float']['input'];
+  swLat: Scalars['Float']['input'];
+  swLng: Scalars['Float']['input'];
 };
 
 export type Mutation = {
@@ -75,6 +77,7 @@ export type Mutation = {
   deletePlace: Scalars['Boolean']['output'];
   /** Admin only */
   deleteUser: Scalars['Boolean']['output'];
+  mock: Scalars['Boolean']['output'];
   /** Admin only */
   updateFeature: Scalars['ID']['output'];
   /** Admin and Owner only */
