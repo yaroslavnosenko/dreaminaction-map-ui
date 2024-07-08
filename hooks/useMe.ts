@@ -48,7 +48,7 @@ export const useMe = () => {
       return
     }
     const payload = parseJwt(auth)
-    client()
+    client
       .query<Query, QueryUserArgs>({
         query: userQuery,
         variables: { id: payload.uid as string },

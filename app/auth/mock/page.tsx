@@ -36,7 +36,7 @@ export default function AuthMock() {
 
   const handleAuth = async (token: string) => {
     try {
-      const { data } = await client().mutate<Mutation, MutationAuthArgs>({
+      const { data } = await client.mutate<Mutation, MutationAuthArgs>({
         mutation,
         variables: {
           input: { token, provider: AuthProvider.Google },

@@ -37,7 +37,7 @@ export default function MapLayout({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (activePlaceId) {
-      client()
+      client
         .query<Query, QueryPlaceArgs>({
           query: placeQuery,
           variables: { id: activePlaceId as string },
@@ -59,7 +59,7 @@ export default function MapLayout({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (!bounds) return
-    client()
+    client
       .query<Query, QueryPlacesByLocationArgs>({
         query: placesQuery,
         variables: {

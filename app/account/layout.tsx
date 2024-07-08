@@ -26,7 +26,7 @@ export default function AccountLayout({ children }: PropsWithChildren) {
     return <>Loading</>
   }
   return (
-    <ApolloProvider client={client()}>
+    <ApolloProvider client={client}>
       <Flex className={classes['layout']}>
         <Stack gap={0} component="nav" className={classes['sidebar']}>
           <Header />
