@@ -40,7 +40,10 @@ const parseJwt = (token: string) => {
 
 export const useMe = () => {
   const [user, setUser] = useState<User | undefined | null>(undefined)
-  const auth = localStorage.getItem(StorageKeys.Auth)
+  const auth =
+    typeof window !== 'undefined'
+      ? localStorage.getItem(StorageKeys.Auth)
+      : undefined
 
   useEffect(() => {
     if (!auth) {

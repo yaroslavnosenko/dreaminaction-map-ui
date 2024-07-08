@@ -1,23 +1,55 @@
 'use client'
-
-import { renderList } from '@/components/place'
-import { DStack } from '@/components/ui'
-import { useMe } from '@/hooks'
-import { places as _places } from '@/mocks'
-import { DeepPartial, Place } from '@/types'
+import { gql, useQuery } from '@apollo/client'
 import { Box, Button, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { MdAdd } from 'react-icons/md'
 
+import { renderList } from '@/components/place'
+import { DStack } from '@/components/ui'
+import { useMe } from '@/hooks'
+import { Var, jql } from '@/utils'
+
+import { DeepPartial, Place, Query, QueryUserArgs } from '@/types'
+
+const query = gql(
+  jql({
+    query: {
+      __variables: {
+        id: 'ID!',
+      },
+      user: {
+        __args: {
+          id: new Var('id'),
+        },
+        places: {
+          id: true,
+          name: true,
+          address: true,
+          accessibility: true,
+          category: true,
+          featuresCount: true,
+        },
+      },
+    },
+  })
+)
+
 export default function Places() {
   const me = useMe()
-  const places = _places
   const router = useRouter()
+  const { data, loading } = useQuery<Query, QueryUserArgs>(query, {
+    variables: { id: me?.id || '' },
+    skip: !me,
+  })
+  const places = data?.user?.places || []
 
   const onClick = (place: DeepPartial<Place>) =>
     router.push('/account/places/' + place.id)
 
+  if (loading) {
+    return <>Loading</>
+  }
   return (
     <Box>
       <Group h={56} mb="2xl" justify="space-between">
@@ -34,7 +66,7 @@ export default function Places() {
         </Button>
       </Group>
       <Title fw="normal" order={4} opacity={0.7}>
-        10 items
+        {places.length} items
       </Title>
       <Box h={1} bg="#f1f1f1" my="xl" />
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
