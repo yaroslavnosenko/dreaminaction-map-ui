@@ -1,16 +1,17 @@
-import { useContext, useRef } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Paper } from '@mantine/core'
+import { useRouter } from 'next/navigation'
 import MapGL, { MapRef, Marker } from 'react-map-gl'
 
-import { MapContext } from '@/components/map'
+import { FilterContext, MapContext } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { fontFamily } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
 
 import { Accessibility, Category, PlaceType } from '@/types'
+import { filterPlaces } from '@/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { useRouter } from 'next/navigation'
 
 type PinProps = {
   onClick: (place: PlaceType) => void
@@ -48,22 +49,28 @@ const Pin = ({ place, active, onClick }: PinProps) => {
 }
 
 export const Map = () => {
-  const { places, initMapPosition, activePlace } = useContext(MapContext)
-  const mapRef = useRef<MapRef>(null)
   const router = useRouter()
+  const mapRef = useRef<MapRef>(null)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
-  const onMoveEnd = () => {}
+  const { categories, accessibilities } = useContext(FilterContext)
+  const { places, activePlace, initMapPosition, setBounds } =
+    useContext(MapContext)
 
-  const updateMap = () => {
-    if (initMapPosition) {
-      const { lat, lng } = initMapPosition
-      mapRef.current?.flyTo({
-        center: { lat, lng },
-        zoom: 12,
-        speed: 20,
-      })
+  const extendedPlaces = useMemo(() => {
+    if (!places) return []
+    const filtered = filterPlaces(places, categories, accessibilities)
+    if (!activePlace) return filtered
+    return [...filtered.filter(({ id }) => id !== activePlace.id), activePlace]
+  }, [places, activePlace, categories, accessibilities])
+
+  useEffect(() => {
+    if (isLoaded && initMapPosition && mapRef.current) {
+      mapRef.current.flyTo({ center: initMapPosition, zoom: 12, speed: 20 })
     }
-  }
+  }, [isLoaded, initMapPosition, mapRef])
+
+  const onMoveEnd = () => setBounds(mapRef.current?.getBounds()!)
 
   return (
     <MapGL
@@ -76,16 +83,16 @@ export const Map = () => {
         document
           .querySelector('button.mapboxgl-ctrl-attrib-button')
           ?.setAttribute('aria-label', 'info')
-        updateMap()
+        setIsLoaded(true)
       }}
       onMoveEnd={onMoveEnd}
     >
-      {places.map((place) => (
+      {extendedPlaces.map((place) => (
         <Pin
-          onClick={() => router.push('/' + place.id)}
-          active={place.id === activePlace?.id}
-          place={place}
-          key={place.id}
+          onClick={() => router.push('/' + place?.id)}
+          active={place?.id === activePlace?.id}
+          place={place!}
+          key={place?.id}
         />
       ))}
     </MapGL>

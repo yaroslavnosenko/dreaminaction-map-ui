@@ -1,77 +1,44 @@
 'use client'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 
-import { gql, useQuery } from '@apollo/client'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 
-import { MapContext } from '@/components/map'
+import { FilterContext, MapContext } from '@/components/map'
 import { renderList } from '@/components/place'
 import { DStack } from '@/components/ui'
-import { Var, jql } from '@/utils'
 
-import { init } from '@/configs'
-import { DeepPartial, Place, Query, QueryPlacesByLocationArgs } from '@/types'
-
-const placesQuery = gql(
-  jql({
-    query: {
-      __variables: {
-        input: 'LocationInput!',
-      },
-      placesByLocation: {
-        __args: {
-          input: new Var('input'),
-        },
-        id: true,
-        name: true,
-        address: true,
-        accessibility: true,
-        category: true,
-        featuresCount: true,
-        lat: true,
-        lng: true,
-      },
-    },
-  })
-)
+import { DeepPartial, Place } from '@/types'
+import { filterPlaces } from '@/utils'
 
 export default function MapListPage() {
-  const { places, setPlaces, initMapPosition, setInitMapPosition } =
-    useContext(MapContext)
+  const { places, setActivePlace } = useContext(MapContext)
+  const { categories, accessibilities } = useContext(FilterContext)
   const router = useRouter()
   const onClick = (place: DeepPartial<Place>) => router.push('/' + place.id)
-
-  const { data, loading } = useQuery<Query, QueryPlacesByLocationArgs>(
-    placesQuery,
-    {
-      variables: { input: { swLat: 0, swLng: 0, neLat: 0, neLng: 0 } },
-      skip: false,
-    }
+  const filteredPlaces = useMemo(
+    () => filterPlaces(places || [], categories, accessibilities),
+    [places, categories, accessibilities]
   )
 
   useEffect(() => {
-    if (!initMapPosition) {
-      setInitMapPosition({ lat: init.lat, lng: init.lng })
-    }
-  }, [initMapPosition, setInitMapPosition])
+    setActivePlace(null)
+  }, [setActivePlace])
 
-  useEffect(() => {
-    if (data?.placesByLocation) {
-      setPlaces(data.placesByLocation)
-    }
-  }, [data, setPlaces])
+  if (!places) {
+    return <>Loading</>
+  }
 
   return (
     <>
       <Group h={56} mb="2xl" justify="space-between">
         <Title order={2}>Uzhhorod</Title>
         <Title opacity={0.7} order={2} fw="normal">
-          6
+          {filteredPlaces.length}
         </Title>
       </Group>
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
-        {renderList(places, onClick)}
+        {renderList(filteredPlaces, onClick)}
       </DStack>
       <Text opacity={0.7} pt="2xl">
         End of the List

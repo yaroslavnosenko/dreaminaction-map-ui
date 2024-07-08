@@ -1,34 +1,32 @@
 'use client'
-import { MapContext } from '@/components/map'
-import { PlaceIcon } from '@/components/place'
-import { AccessibilityColorMap } from '@/constants'
-import { Accessibility, Category } from '@/types'
+import { useContext, useEffect } from 'react'
+
 import { Box, Button, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
-import { useContext, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   MdAccessibleForward,
   MdOutlineArrowBack,
   MdOutlineDirections,
 } from 'react-icons/md'
 
+import { MapContext } from '@/components/map'
+import { PlaceIcon } from '@/components/place'
+import { AccessibilityColorMap } from '@/constants'
+import { Accessibility, Category } from '@/types'
+
 export default function MapPage() {
-  const { setActivePlace, setInitMapPosition, setPlaces, places } =
-    useContext(MapContext)
+  const { activePlace } = useContext(MapContext)
   const router = useRouter()
-  const { id } = useParams()
-  const place = places.find((place) => place.id === id)
-  const accessibility = place?.accessibility || Accessibility.Unknown
+  const accessibility = activePlace?.accessibility || Accessibility.Unknown
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    if (place) {
-      setActivePlace(place)
-      setInitMapPosition({ lat: place.lat!, lng: place.lng! })
-      // setPlaces([...places.filter((item) => item.id !== place.id), place])
-    }
-  }, [place, places, setActivePlace, setInitMapPosition, setPlaces])
+  }, [])
+
+  if (!activePlace) {
+    return <>Loading</>
+  }
 
   return (
     <>
@@ -58,13 +56,13 @@ export default function MapPage() {
         </Button>
       </Group>
       <Group gap="sm">
-        <PlaceIcon category={place?.category || Category.Sites} />
+        <PlaceIcon category={activePlace?.category || Category.Sites} />
         <Title order={3} fw={500}>
-          {place?.name}
+          {activePlace?.name}
         </Title>
       </Group>
       <Text opacity={0.7} my="md">
-        {place?.address}
+        {activePlace?.address}
       </Text>
       <Group gap="sm">
         <Box
@@ -79,11 +77,11 @@ export default function MapPage() {
         </Box>
         <Text>{accessibility}</Text>
       </Group>
-      {place?.description && (
+      {activePlace?.description && (
         <>
           <Box my="lg" h={1} bg="#f1f1f1" />
           <Text opacity={0.7} my="md">
-            {place.description}
+            {activePlace.description}
           </Text>
         </>
       )}
