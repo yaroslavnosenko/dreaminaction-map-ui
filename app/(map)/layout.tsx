@@ -22,8 +22,8 @@ import {
   QueryPlaceArgs,
   QueryPlacesByLocationArgs,
 } from '@/types'
+import { placeQuery, placesQuery } from './gql'
 import classes from './layout.module.css'
-import { placeQuery, placesQuery } from './queries'
 
 export default function MapLayout({ children }: PropsWithChildren) {
   const { id: activePlaceId } = useParams()
