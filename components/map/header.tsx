@@ -3,10 +3,9 @@ import { Anchor, Button, Flex } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MdOutlineAccountCircle, MdOutlineKey } from 'react-icons/md'
-import useLocalStorageState from 'use-local-storage-state'
 
 export const Header = () => {
-  const [auth] = useLocalStorageState<string>(StorageKeys.Auth)
+  const auth = localStorage.getItem(StorageKeys.Auth)
 
   return (
     <Flex justify="space-between" align="center">

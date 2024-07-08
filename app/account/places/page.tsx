@@ -2,7 +2,6 @@
 
 import { renderList } from '@/components/place'
 import { DStack } from '@/components/ui'
-import { useId } from '@/hooks'
 import { places as _places } from '@/mocks'
 import { DeepPartial, Place } from '@/types'
 import { Box, Button, Group, Title } from '@mantine/core'
@@ -11,10 +10,10 @@ import { useRouter } from 'next/navigation'
 import { MdAdd } from 'react-icons/md'
 
 export default function Places() {
-  const { uid } = useId()
+  // const me = useMe()
   const places = _places
   const router = useRouter()
-  console.log(uid)
+  // console.log(me)
 
   const onClick = (place: DeepPartial<Place>) =>
     router.push('/account/places/' + place.id)

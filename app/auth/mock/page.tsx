@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { MdArrowBack } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import useLocalStorageState from 'use-local-storage-state'
 
 import { StorageKeys } from '@/constants'
 import { client } from '@/graphql'
@@ -33,7 +32,7 @@ const mutation = gql(
 
 export default function AuthMock() {
   const router = useRouter()
-  const [auth, setAuth] = useLocalStorageState(StorageKeys.Auth)
+  const auth = localStorage.getItem(StorageKeys.Auth)
 
   const handleAuth = async (token: string) => {
     try {
@@ -43,8 +42,8 @@ export default function AuthMock() {
           input: { token, provider: AuthProvider.Google },
         },
       })
-      setAuth(data?.auth || '')
-      router.replace('/')
+      localStorage.setItem(StorageKeys.Auth, String(data?.auth))
+      router.replace('/account')
       toast.success('Signed in as ' + token)
     } catch {}
   }
