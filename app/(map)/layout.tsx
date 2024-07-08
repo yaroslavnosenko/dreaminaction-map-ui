@@ -3,7 +3,7 @@ import { PropsWithChildren, useEffect, useState } from 'react'
 
 import { Box, Flex, Stack } from '@mantine/core'
 import { LngLatBounds, LngLatLike } from 'mapbox-gl'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
 import {
   Filter,
@@ -27,6 +27,7 @@ import { placeQuery, placesQuery } from './queries'
 
 export default function MapLayout({ children }: PropsWithChildren) {
   const { id: activePlaceId } = useParams()
+  const router = useRouter()
   const [places, setPlaces] = useState<PlaceType[] | null>(null)
   const [activePlace, setActivePlace] = useState<PlaceType | null>(null)
   const [bounds, setBounds] = useState<LngLatBounds | null>(null)
@@ -42,7 +43,10 @@ export default function MapLayout({ children }: PropsWithChildren) {
           variables: { id: activePlaceId as string },
         })
         .then(({ data: { place } }) => {
-          if (!place) return
+          if (!place) {
+            router.push('/')
+            return
+          }
           if (!initMapPosition) {
             setInitMapPosition({ lat: place.lat, lng: place.lng })
           }
@@ -51,7 +55,7 @@ export default function MapLayout({ children }: PropsWithChildren) {
     } else {
       setInitMapPosition(Uzhhorod)
     }
-  }, [activePlaceId, initMapPosition])
+  }, [activePlaceId, initMapPosition, router])
 
   useEffect(() => {
     if (!bounds) return
