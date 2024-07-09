@@ -7,13 +7,16 @@ import { useRouter } from 'next/navigation'
 
 import { Header, Menu } from '@/components/account'
 import { client } from '@/graphql'
-
 import { useMe } from '@/hooks'
+
+import { UserRole } from '@/types'
+
 import classes from './layout.module.css'
 
 export default function AccountLayout({ children }: PropsWithChildren) {
   const me = useMe()
   const router = useRouter()
+  const isManager = me?.role !== UserRole.User
 
   useEffect(() => {
     if (me === null) router.push('/')
@@ -30,7 +33,7 @@ export default function AccountLayout({ children }: PropsWithChildren) {
       <Flex className={classes['layout']}>
         <Stack gap={0} component="nav" className={classes['sidebar']}>
           <Header />
-          <Menu />
+          <Menu isManager={isManager} />
         </Stack>
         <Box component="main" className={classes['main']}>
           {children}
