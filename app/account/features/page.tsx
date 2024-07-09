@@ -50,7 +50,7 @@ export default function Features() {
         )}
       </Group>
       <Title fw="normal" order={4} opacity={0.7}>
-        10 items
+        {features.length} items
       </Title>
       <Box h={1} bg="#f1f1f1" my="xl" />
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
