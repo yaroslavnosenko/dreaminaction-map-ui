@@ -11,11 +11,12 @@ import { MdArrowBack } from 'react-icons/md'
 
 export default function SavePlace() {
   const { id } = useParams()
-  const place = places.find((place) => place.id === id)
   const me = useMe()
 
-  const isManager = me?.role !== UserRole.User
   const isCreate = id === 'new'
+  const isManager = me?.role !== UserRole.User
+
+  const place = places.find((place) => place.id === id)
 
   return (
     <Box>

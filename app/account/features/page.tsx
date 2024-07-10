@@ -1,30 +1,19 @@
 'use client'
 
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { Anchor, Box, Button, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { MdAdd } from 'react-icons/md'
 
 import { DStack } from '@/components/ui'
-import { jql } from '@/utils'
 
 import { useMe } from '@/hooks'
 import { Query, UserRole } from '@/types'
-
-const query = gql(
-  jql({
-    query: {
-      features: {
-        id: true,
-        name: true,
-      },
-    },
-  })
-)
+import { featuresQuery } from './graphql'
 
 export default function Features() {
   const me = useMe()
-  const { data, loading } = useQuery<Query>(query)
+  const { data, loading } = useQuery<Query>(featuresQuery)
 
   const features = data?.features || []
   const isAdmin = me?.role === UserRole.Admin
