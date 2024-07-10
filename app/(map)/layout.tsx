@@ -22,7 +22,7 @@ import {
   QueryPlaceArgs,
   QueryPlacesByBoundsArgs,
 } from '@/types'
-import { placeQuery, placesQuery } from './gql'
+import { placeByIdQuery, placesByBoundsQuery } from './graphql'
 import classes from './layout.module.css'
 
 export default function MapLayout({ children }: PropsWithChildren) {
@@ -39,7 +39,7 @@ export default function MapLayout({ children }: PropsWithChildren) {
     if (activePlaceId) {
       client
         .query<Query, QueryPlaceArgs>({
-          query: placeQuery,
+          query: placeByIdQuery,
           variables: { id: activePlaceId as string },
         })
         .then(({ data: { place } }) => {
@@ -61,7 +61,7 @@ export default function MapLayout({ children }: PropsWithChildren) {
     if (!bounds) return
     client
       .query<Query, QueryPlacesByBoundsArgs>({
-        query: placesQuery,
+        query: placesByBoundsQuery,
         variables: {
           input: {
             swLat: bounds._sw.lat,

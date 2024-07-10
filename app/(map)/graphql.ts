@@ -1,7 +1,7 @@
 import { Var, jql } from '@/utils'
 import { gql } from '@apollo/client'
 
-export const placesQuery = gql(
+export const placesByBoundsQuery = gql(
   jql({
     query: {
       __variables: {
@@ -24,7 +24,7 @@ export const placesQuery = gql(
   })
 )
 
-export const placeQuery = gql(
+export const placeByIdQuery = gql(
   jql({
     query: {
       __variables: {
