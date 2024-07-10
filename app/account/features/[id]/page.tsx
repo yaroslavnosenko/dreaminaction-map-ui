@@ -129,7 +129,7 @@ export default function SaveFeature() {
           disabled={loading}
           type="submit"
         >
-          Save
+          Submit
         </Button>
         {!isCreate && (
           <Button
