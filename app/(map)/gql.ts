@@ -5,9 +5,9 @@ export const placesQuery = gql(
   jql({
     query: {
       __variables: {
-        input: 'LocationInput!',
+        input: 'BoundsInput!',
       },
-      placesByLocation: {
+      placesByBounds: {
         __args: {
           input: new Var('input'),
         },

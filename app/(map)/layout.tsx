@@ -20,7 +20,7 @@ import {
   PlaceType,
   Query,
   QueryPlaceArgs,
-  QueryPlacesByLocationArgs,
+  QueryPlacesByBoundsArgs,
 } from '@/types'
 import { placeQuery, placesQuery } from './gql'
 import classes from './layout.module.css'
@@ -60,7 +60,7 @@ export default function MapLayout({ children }: PropsWithChildren) {
   useEffect(() => {
     if (!bounds) return
     client
-      .query<Query, QueryPlacesByLocationArgs>({
+      .query<Query, QueryPlacesByBoundsArgs>({
         query: placesQuery,
         variables: {
           input: {
@@ -71,9 +71,9 @@ export default function MapLayout({ children }: PropsWithChildren) {
           },
         },
       })
-      .then(({ data: { placesByLocation } }) => {
-        if (!placesByLocation) return
-        setPlaces(placesByLocation)
+      .then(({ data: { placesByBounds } }) => {
+        if (!placesByBounds) return
+        setPlaces(placesByBounds)
       })
   }, [bounds])
 

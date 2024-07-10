@@ -47,18 +47,20 @@ export const DetailsTab = ({ place }: TabProps) => {
         <Button size="md" radius="xl" className="animated">
           Save
         </Button>
-        <Button
-          component={Link}
-          size="md"
-          radius="xl"
-          leftSection={<MdOpenInNew size={24} />}
-          href={'/' + place?.id}
-          className="animated"
-          variant="white"
-          target="_blank"
-        >
-          Visit
-        </Button>
+        {place && (
+          <Button
+            component={Link}
+            size="md"
+            radius="xl"
+            leftSection={<MdOpenInNew size={24} />}
+            href={'/' + place.id}
+            className="animated"
+            variant="white"
+            target="_blank"
+          >
+            Visit
+          </Button>
+        )}
       </Group>
     </>
   )

@@ -15,6 +15,7 @@ export default function SavePlace() {
   const me = useMe()
 
   const isManager = me?.role !== UserRole.User
+  const isCreate = id === 'new'
 
   return (
     <Box>
@@ -28,7 +29,7 @@ export default function SavePlace() {
         >
           <MdArrowBack size={24} />
         </ActionIcon>
-        <Title order={2}>Edit Place</Title>
+        <Title order={2}>{isCreate ? 'Create Place' : 'Edit Place'}</Title>
       </Group>
 
       <Tabs variant="pills" radius="xl" defaultValue="details">

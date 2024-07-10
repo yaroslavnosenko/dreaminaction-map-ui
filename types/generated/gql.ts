@@ -31,6 +31,13 @@ export enum AuthProvider {
   Google = 'google'
 }
 
+export type BoundsInput = {
+  neLat: Scalars['Float']['input'];
+  neLng: Scalars['Float']['input'];
+  swLat: Scalars['Float']['input'];
+  swLng: Scalars['Float']['input'];
+};
+
 export enum Category {
   Drinks = 'drinks',
   Food = 'food',
@@ -55,13 +62,6 @@ export type FeatureAvailabilityInput = {
 
 export type FeatureInput = {
   name: Scalars['String']['input'];
-};
-
-export type LocationInput = {
-  neLat: Scalars['Float']['input'];
-  neLng: Scalars['Float']['input'];
-  swLat: Scalars['Float']['input'];
-  swLng: Scalars['Float']['input'];
 };
 
 export type Mutation = {
@@ -197,7 +197,7 @@ export type Query = {
   place?: Maybe<Place>;
   /** Admin and Manager only */
   places: Array<Place>;
-  placesByLocation: Array<Place>;
+  placesByBounds: Array<Place>;
   /** Admin, Manager and Me only */
   user?: Maybe<User>;
   /** Admin and Manager only */
@@ -210,8 +210,8 @@ export type QueryPlaceArgs = {
 };
 
 
-export type QueryPlacesByLocationArgs = {
-  input: LocationInput;
+export type QueryPlacesByBoundsArgs = {
+  input: BoundsInput;
 };
 
 
