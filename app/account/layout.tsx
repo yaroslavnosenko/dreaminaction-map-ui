@@ -2,7 +2,7 @@
 import { PropsWithChildren, useEffect } from 'react'
 
 import { ApolloProvider } from '@apollo/client'
-import { Box, Flex, Stack } from '@mantine/core'
+import { Box, Center, Flex, Loader, Stack } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 
 import { Header, Menu } from '@/components/account'
@@ -26,7 +26,11 @@ export default function AccountLayout({ children }: PropsWithChildren) {
     return null
   }
   if (me === undefined) {
-    return <>Loading</>
+    return (
+      <Center mih="100vh">
+        <Loader />
+      </Center>
+    )
   }
   return (
     <ApolloProvider client={client}>
