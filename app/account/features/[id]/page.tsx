@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useMutation, useQuery } from '@apollo/client'
 import {
@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Group,
+  Modal,
   Stack,
   TextInput,
   Title,
@@ -36,6 +37,7 @@ type InputFields = {
 }
 
 export default function SaveFeature() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { register, handleSubmit, setValue } = useForm<InputFields>()
   const router = useRouter()
   const { id } = useParams()
@@ -133,18 +135,34 @@ export default function SaveFeature() {
         </Button>
         {!isCreate && (
           <Button
-            size="md"
-            radius="xl"
+            onClick={() => setIsModalOpen(true)}
             leftSection={<MdDelete size={24} />}
             className="animated"
             variant="white"
+            radius="xl"
             color="red"
-            onClick={onDelete}
+            size="md"
           >
             Delete
           </Button>
         )}
       </Group>
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        withCloseButton={false}
+        title="Delete the future?"
+        centered
+      >
+        <Group pt={4} justify="flex-end">
+          <Button onClick={() => setIsModalOpen(false)} variant="transparent">
+            Cancel
+          </Button>
+          <Button onClick={onDelete} color="red">
+            Delete
+          </Button>
+        </Group>
+      </Modal>
     </form>
   )
 }
