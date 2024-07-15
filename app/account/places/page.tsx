@@ -28,7 +28,6 @@ const query = gql(
           address: true,
           accessibility: true,
           category: true,
-          featuresCount: true,
         },
       },
     },

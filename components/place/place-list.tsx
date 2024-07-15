@@ -15,9 +15,9 @@ export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
   const {
     name,
     address,
+    featuresCount,
     category = Category.Sites,
     accessibility = Accessibility.Unknown,
-    featuresCount = 0,
   } = place
   return (
     <Box onClick={() => onClick(place)} className="animated">
@@ -42,8 +42,12 @@ export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
           <MdAccessibleForward size={24} />
         </Box>
         <Text>{accessibility}</Text>
-        <Text>•</Text>
-        <Text>{featuresCount} features</Text>
+        {featuresCount !== undefined && (
+          <>
+            <Text>•</Text>
+            <Text>{featuresCount} features</Text>
+          </>
+        )}
       </Group>
     </Box>
   )
