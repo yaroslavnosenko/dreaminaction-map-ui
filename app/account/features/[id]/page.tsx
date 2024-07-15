@@ -158,9 +158,11 @@ export default function SaveFeature() {
           <Button onClick={() => setIsModalOpen(false)} variant="transparent">
             Cancel
           </Button>
-          <Button onClick={onDelete} color="red">
-            Delete
-          </Button>
+          {!!isCreate && (
+            <Button onClick={onDelete} color="red">
+              Delete
+            </Button>
+          )}
         </Group>
       </Modal>
     </form>
