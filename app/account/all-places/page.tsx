@@ -1,12 +1,16 @@
 'use client'
+import { useState } from 'react'
+
+import { gql, useQuery } from '@apollo/client'
+import { Box, Checkbox, Flex, Group, Title } from '@mantine/core'
+import { useRouter } from 'next/navigation'
+
 import { renderList } from '@/components/place'
 import { DStack, SearchInput } from '@/components/ui'
 import { AccessibilityArray, AccessibilityColorMap } from '@/constants'
-import { Accessibility, PlaceType, Query, QueryPlacesArgs } from '@/types'
 import { Var, jql } from '@/utils'
-import { gql, useQuery } from '@apollo/client'
-import { Box, Checkbox, Flex, Group, Title } from '@mantine/core'
-import { useState } from 'react'
+
+import { Accessibility, PlaceType, Query, QueryPlacesArgs } from '@/types'
 
 const query = gql(
   jql({
@@ -31,6 +35,8 @@ const query = gql(
 )
 
 export default function AllPlaces() {
+  const router = useRouter()
+
   const [searchQuery, setQuery] = useState<string>('')
   const [accessibilities, setAccessibilities] =
     useState<Accessibility[]>(AccessibilityArray)
@@ -48,9 +54,8 @@ export default function AllPlaces() {
 
   const places = data?.places || []
 
-  const onClick = (place: PlaceType) => {
-    console.log(place)
-  }
+  const onClick = (place: PlaceType) =>
+    router.push('/account/places/' + place.id)
 
   return (
     <Box>

@@ -10,7 +10,7 @@ import { DStack } from '@/components/ui'
 import { useMe } from '@/hooks'
 import { Var, jql } from '@/utils'
 
-import { DeepPartial, Place, Query, QueryUserArgs } from '@/types'
+import { PlaceType, Query, QueryUserArgs } from '@/types'
 
 const query = gql(
   jql({
@@ -43,7 +43,7 @@ export default function Places() {
   })
   const places = data?.user?.places || []
 
-  const onClick = (place: DeepPartial<Place>) =>
+  const onClick = (place: PlaceType) =>
     router.push('/account/places/' + place.id)
 
   return (
