@@ -1,19 +1,25 @@
 'use client'
 
 import { gql, useQuery } from '@apollo/client'
-import { Anchor, Autocomplete, Box, Group, Text, Title } from '@mantine/core'
+import { Anchor, Box, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 
-import { DStack } from '@/components/ui'
-import { jql } from '@/utils'
+import { DStack, SearchInput } from '@/components/ui'
+import { Var, jql } from '@/utils'
 
-import { useMe } from '@/hooks'
-import { Query } from '@/types'
+import { Query, QueryUsersArgs } from '@/types'
+import { useState } from 'react'
 
 const query = gql(
   jql({
     query: {
+      __variables: {
+        query: 'String',
+      },
       users: {
+        __args: {
+          query: new Var('query'),
+        },
         id: true,
         firstName: true,
         lastName: true,
@@ -24,20 +30,20 @@ const query = gql(
 )
 
 export default function Users() {
-  const me = useMe()
-  const { data, loading } = useQuery<Query>(query)
+  const [searchQuery, setQuery] = useState<string>('')
+  const { data, loading } = useQuery<Query, QueryUsersArgs>(query, {
+    variables: { query: searchQuery },
+  })
 
   const users = data?.users || []
 
-  if (loading) {
-    return <>Loading</>
-  }
   return (
     <Box>
       <Group h={56} mb="2xl" justify="space-between">
         <Title order={2}>Users</Title>
       </Group>
-      <Autocomplete placeholder="Search" size="md" mb="2xl" />
+      <SearchInput charsCount={3} onQueryChange={setQuery} size="md" mb="2xl" />
+      {loading && 'Loading'}
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
         {users.map(({ id, firstName, lastName, email }) => (
           <Anchor component={Link} key={id} href={'#'}>

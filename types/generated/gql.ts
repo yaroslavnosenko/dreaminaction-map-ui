@@ -185,7 +185,9 @@ export type Place = {
 };
 
 export type PlaceInput = {
+  address: Scalars['String']['input'];
   category: Category;
+  description?: InputMaybe<Scalars['String']['input']>;
   lat: Scalars['Float']['input'];
   lng: Scalars['Float']['input'];
   name: Scalars['String']['input'];
@@ -210,6 +212,11 @@ export type QueryPlaceArgs = {
 };
 
 
+export type QueryPlacesArgs = {
+  query?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryPlacesByBoundsArgs = {
   input: BoundsInput;
 };
@@ -217,6 +224,11 @@ export type QueryPlacesByBoundsArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryUsersArgs = {
+  query?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
