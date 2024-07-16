@@ -1,24 +1,22 @@
-import { Accessibility, PlaceType } from '@/types'
-import { NativeSelect, Stack } from '@mantine/core'
+import { AccessibilityArray } from '@/constants'
+import { PlaceType } from '@/types'
+import { Autocomplete, NativeSelect, Stack } from '@mantine/core'
 
 type TabProps = {
-  place?: PlaceType
+  place?: PlaceType | null
 }
 
 export const SettingsTab = ({ place }: TabProps) => {
+  console.log(place)
   return (
     <Stack gap="lg">
       <NativeSelect
         size="md"
         label="Accessibility"
-        data={[Accessibility.Compliant]}
+        value={place?.accessibility}
+        data={AccessibilityArray}
       />
-      <NativeSelect
-        disabled
-        size="md"
-        label="Owner"
-        data={['admin@mock.loc', 'manager@mock.loc', 'user@mock.loc']}
-      />
+      <Autocomplete size="md" label="Owner" value={place?.owner?.email} />
     </Stack>
   )
 }

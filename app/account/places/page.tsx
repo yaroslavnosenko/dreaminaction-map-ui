@@ -1,5 +1,5 @@
 'use client'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { Box, Button, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,36 +8,14 @@ import { MdAdd } from 'react-icons/md'
 import { renderList } from '@/components/place'
 import { DStack } from '@/components/ui'
 import { useMe } from '@/hooks'
-import { Var, jql } from '@/utils'
+import { myPlacesQuery } from './graphql'
 
 import { PlaceType, Query, QueryUserArgs } from '@/types'
-
-const query = gql(
-  jql({
-    query: {
-      __variables: {
-        id: 'ID!',
-      },
-      user: {
-        __args: {
-          id: new Var('id'),
-        },
-        places: {
-          id: true,
-          name: true,
-          address: true,
-          accessibility: true,
-          category: true,
-        },
-      },
-    },
-  })
-)
 
 export default function Places() {
   const me = useMe()
   const router = useRouter()
-  const { data, loading } = useQuery<Query, QueryUserArgs>(query, {
+  const { data, loading } = useQuery<Query, QueryUserArgs>(myPlacesQuery, {
     variables: { id: me?.id || '' },
     skip: !me,
   })

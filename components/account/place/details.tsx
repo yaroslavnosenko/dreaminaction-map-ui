@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { MdOpenInNew } from 'react-icons/md'
 
 type TabProps = {
-  place?: PlaceType
+  place?: PlaceType | null
 }
 
 export const DetailsTab = ({ place }: TabProps) => {
