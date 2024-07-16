@@ -1,8 +1,8 @@
 'use client'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect } from 'react'
 
 import { Box, Flex, Stack } from '@mantine/core'
-import { LngLatBounds, LngLatLike } from 'mapbox-gl'
+import { LngLat } from 'mapbox-gl'
 import { useParams, useRouter } from 'next/navigation'
 
 import {
@@ -11,29 +11,27 @@ import {
   Footer,
   Header,
   Map,
-  MapContext,
+  MapProvider,
+  useMap,
 } from '@/components/map'
 
 import { Uzhhorod } from '@/configs'
 import { client } from '@/graphql'
-import {
-  PlaceType,
-  Query,
-  QueryPlaceArgs,
-  QueryPlacesByBoundsArgs,
-} from '@/types'
+import { Query, QueryPlaceArgs, QueryPlacesByBoundsArgs } from '@/types'
+
 import { placeByIdQuery, placesByBoundsQuery } from './graphql'
 import classes from './layout.module.css'
 
-export default function MapLayout({ children }: PropsWithChildren) {
+const BaseLayout = ({ children }: PropsWithChildren) => {
   const { id: activePlaceId } = useParams()
   const router = useRouter()
-  const [places, setPlaces] = useState<PlaceType[] | null>(null)
-  const [activePlace, setActivePlace] = useState<PlaceType | null>(null)
-  const [bounds, setBounds] = useState<LngLatBounds | null>(null)
-  const [initMapPosition, setInitMapPosition] = useState<LngLatLike | null>(
-    null
-  )
+  const {
+    setPlaces,
+    setActivePlace,
+    initMapPosition,
+    bounds,
+    setInitMapPosition,
+  } = useMap()
 
   useEffect(() => {
     if (activePlaceId) {
@@ -48,63 +46,58 @@ export default function MapLayout({ children }: PropsWithChildren) {
             return
           }
           if (!initMapPosition) {
-            setInitMapPosition({ lat: place.lat, lng: place.lng })
+            setInitMapPosition(new LngLat(place.lng, place.lat))
           }
           setActivePlace(place)
         })
     } else {
       setInitMapPosition(Uzhhorod)
     }
-  }, [activePlaceId, initMapPosition, router])
+  }, [
+    activePlaceId,
+    initMapPosition,
+    router,
+    setActivePlace,
+    setInitMapPosition,
+  ])
 
   useEffect(() => {
     if (!bounds) return
+    const { swLat, swLng, neLat, neLng } = bounds
     client
       .query<Query, QueryPlacesByBoundsArgs>({
         query: placesByBoundsQuery,
-        variables: {
-          input: {
-            swLat: bounds._sw.lat,
-            swLng: bounds._sw.lng,
-            neLat: bounds._ne.lat,
-            neLng: bounds._ne.lng,
-          },
-        },
+        variables: { input: { swLat, swLng, neLat, neLng } },
       })
       .then(({ data: { placesByBounds } }) => {
         if (!placesByBounds) return
         setPlaces(placesByBounds)
       })
-  }, [bounds])
+  }, [bounds, setPlaces])
 
   return (
-    <MapContext.Provider
-      value={{
-        places,
-        setPlaces,
-        initMapPosition,
-        setInitMapPosition,
-        activePlace,
-        setActivePlace,
-        bounds,
-        setBounds,
-      }}
-    >
+    <Flex className={classes['layout']}>
+      <Stack gap={0} component="nav" className={classes['sidebar']}>
+        <Header />
+        <Filter flex={1} />
+        <Footer visibleFrom="xs" />
+      </Stack>
+      <Box component="main" className={classes['main']}>
+        {children}
+      </Box>
+      <Box component="aside" className={classes['map']}>
+        <Map />
+      </Box>
+    </Flex>
+  )
+}
+
+export default function MapLayout({ children }: PropsWithChildren) {
+  return (
+    <MapProvider>
       <FilterProvider>
-        <Flex className={classes['layout']}>
-          <Stack gap={0} component="nav" className={classes['sidebar']}>
-            <Header />
-            <Filter flex={1} />
-            <Footer visibleFrom="xs" />
-          </Stack>
-          <Box component="main" className={classes['main']}>
-            {children}
-          </Box>
-          <Box component="aside" className={classes['map']}>
-            <Map />
-          </Box>
-        </Flex>
+        <BaseLayout>{children}</BaseLayout>
       </FilterProvider>
-    </MapContext.Provider>
+    </MapProvider>
   )
 }

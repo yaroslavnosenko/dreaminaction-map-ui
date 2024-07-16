@@ -4,7 +4,7 @@ import { Paper } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 import MapGL, { MapRef, Marker } from 'react-map-gl'
 
-import { FilterContext, MapContext } from '@/components/map'
+import { FilterContext, useMap } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { Uzhhorod, fontFamily } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
@@ -54,8 +54,7 @@ export const Map = () => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const { categories, accessibilities } = useContext(FilterContext)
-  const { places, activePlace, initMapPosition, setBounds } =
-    useContext(MapContext)
+  const { places, activePlace, initMapPosition, setBounds, bounds } = useMap()
 
   const extendedPlaces = useMemo(() => {
     if (!places) return []
@@ -70,7 +69,15 @@ export const Map = () => {
     }
   }, [isLoaded, initMapPosition, mapRef])
 
-  const onMoveEnd = () => setBounds(mapRef.current?.getBounds()!)
+  const onMoveEnd = () => {
+    const { _ne, _sw } = mapRef.current?.getBounds()!
+    setBounds({
+      neLat: _ne.lat,
+      neLng: _ne.lng,
+      swLat: _sw.lat,
+      swLng: _sw.lng,
+    })
+  }
 
   return (
     <MapGL

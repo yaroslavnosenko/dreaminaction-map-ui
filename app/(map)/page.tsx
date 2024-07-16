@@ -1,7 +1,7 @@
 'use client'
 import { useContext, useEffect, useMemo } from 'react'
 
-import { Box, Group, Text, Title } from '@mantine/core'
+import { Box, Group, Title } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 
 import { FilterContext, MapContext } from '@/components/map'
@@ -40,9 +40,6 @@ export default function MapListPage() {
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
         {renderList(filteredPlaces, onClick)}
       </DStack>
-      <Text opacity={0.7} pt="2xl">
-        End of the List
-      </Text>
     </>
   )
 }
