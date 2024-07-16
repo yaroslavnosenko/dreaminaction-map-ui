@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@apollo/client'
-import { Anchor, Box, Button, Group, Text, Title } from '@mantine/core'
+import { Anchor, Box, Button, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { MdAdd } from 'react-icons/md'
 
@@ -18,9 +18,6 @@ export default function Features() {
   const features = data?.features || []
   const isAdmin = me?.role === UserRole.Admin
 
-  if (loading) {
-    return <>Loading</>
-  }
   return (
     <Box>
       <Group h={56} mb="2xl" justify="space-between">
@@ -42,8 +39,8 @@ export default function Features() {
         {features.length} items
       </Title>
       <Box h={1} bg="#f1f1f1" my="xl" />
+      {loading && 'Loading'}
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
-        {features.length === 0 && <Text>The list is empty</Text>}
         {features.map(({ id, name }) => (
           <Anchor
             component={Link}
