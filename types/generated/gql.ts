@@ -213,6 +213,7 @@ export type QueryPlaceArgs = {
 
 
 export type QueryPlacesArgs = {
+  accessibilities?: InputMaybe<Array<Accessibility>>;
   query?: InputMaybe<Scalars['String']['input']>;
 };
 

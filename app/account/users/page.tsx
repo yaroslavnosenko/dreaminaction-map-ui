@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 
 import { gql, useQuery } from '@apollo/client'
 import { Anchor, Box, Group, Text, Title } from '@mantine/core'
@@ -8,7 +9,6 @@ import { DStack, SearchInput } from '@/components/ui'
 import { Var, jql } from '@/utils'
 
 import { Query, QueryUsersArgs } from '@/types'
-import { useState } from 'react'
 
 const query = gql(
   jql({
@@ -39,7 +39,7 @@ export default function Users() {
 
   return (
     <Box>
-      <Group h={56} mb="2xl" justify="space-between">
+      <Group h={56} mb="xl" justify="space-between">
         <Title order={2}>Users</Title>
       </Group>
       <SearchInput charsCount={3} onQueryChange={setQuery} size="md" mb="2xl" />
