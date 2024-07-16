@@ -6,7 +6,7 @@ import MapGL, { MapRef, Marker } from 'react-map-gl'
 
 import { FilterContext, MapContext } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
-import { fontFamily } from '@/configs'
+import { Uzhhorod, fontFamily } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
 
 import { Accessibility, Category, PlaceType } from '@/types'
@@ -84,6 +84,11 @@ export const Map = () => {
           .querySelector('button.mapboxgl-ctrl-attrib-button')
           ?.setAttribute('aria-label', 'info')
         setIsLoaded(true)
+      }}
+      initialViewState={{
+        latitude: Uzhhorod.lat,
+        longitude: Uzhhorod.lng,
+        zoom: 12,
       }}
       onMoveEnd={onMoveEnd}
     >

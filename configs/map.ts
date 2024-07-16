@@ -1,6 +1,3 @@
-import { LngLatLike } from 'mapbox-gl'
+import { LngLat } from 'mapbox-gl'
 
-export const Uzhhorod: LngLatLike = {
-  lat: 48.621025,
-  lng: 22.288229,
-}
+export const Uzhhorod: LngLat = new LngLat(22.288229, 48.621025)
