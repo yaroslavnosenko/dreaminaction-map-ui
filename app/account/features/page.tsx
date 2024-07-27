@@ -1,22 +1,14 @@
-'use client'
-
-import { useQuery } from '@apollo/client'
 import { Anchor, Box, Button, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { MdAdd } from 'react-icons/md'
 
 import { DStack } from '@/components/ui'
 
-import { useMe } from '@/hooks'
-import { Query, UserRole } from '@/types'
-import { featuresQuery } from './graphql'
+import { getFeatures } from '@/services'
 
-export default function Features() {
-  const me = useMe()
-  const { data, loading } = useQuery<Query>(featuresQuery)
-
-  const features = data?.features || []
-  const isAdmin = me?.role === UserRole.Admin
+export default async function Features() {
+  const features = await getFeatures()
+  const isAdmin = true
 
   return (
     <Box>
@@ -39,7 +31,6 @@ export default function Features() {
         {features.length} items
       </Title>
       <Box h={1} bg="#f1f1f1" my="xl" />
-      {loading && 'Loading'}
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
         {features.map(({ id, name }) => (
           <Anchor

@@ -1,28 +1,12 @@
-'use client'
-import { useQuery } from '@apollo/client'
 import { Box, Button, Group, Title } from '@mantine/core'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { MdAdd } from 'react-icons/md'
 
-import { renderList } from '@/components/place'
-import { DStack } from '@/components/ui'
-import { useMe } from '@/hooks'
-import { myPlacesQuery } from './graphql'
+import { PlaceList } from '@/components/place'
+import { getPlacesByBounce } from '@/services'
 
-import { PlaceType, Query, QueryUserArgs } from '@/types'
-
-export default function Places() {
-  const me = useMe()
-  const router = useRouter()
-  const { data, loading } = useQuery<Query, QueryUserArgs>(myPlacesQuery, {
-    variables: { id: me?.id || '' },
-    skip: !me,
-  })
-  const places = data?.user?.places || []
-
-  const onClick = (place: PlaceType) =>
-    router.push('/account/places/' + place.id)
+export default async function Places() {
+  const places = await getPlacesByBounce()
 
   return (
     <Box>
@@ -43,10 +27,7 @@ export default function Places() {
         {places.length} items
       </Title>
       <Box h={1} bg="#f1f1f1" my="xl" />
-      {loading && 'Loading'}
-      <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
-        {renderList(places, onClick)}
-      </DStack>
+      <PlaceList places={places || []} partHref="/" />
     </Box>
   )
 }
