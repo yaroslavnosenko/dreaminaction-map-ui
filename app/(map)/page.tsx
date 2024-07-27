@@ -1,45 +1,45 @@
-'use client'
-import { useContext, useEffect, useMemo } from 'react'
+import { Map } from '@/components/map'
+import { Box, Center, Group, Loader, Title } from '@mantine/core'
 
-import { Box, Group, Title } from '@mantine/core'
-import { useRouter } from 'next/navigation'
+import { getPlacesByBounce } from '@/services'
 
-import { FilterContext, MapContext } from '@/components/map'
-import { renderList } from '@/components/place'
-import { DStack } from '@/components/ui'
+import { PlaceList } from '@/components/place'
+import { parseBoundsFromSearchParams } from '@/utils'
+import classes from './layout.module.css'
 
-import { DeepPartial, Place } from '@/types'
-import { filterPlaces } from '@/utils'
+interface PageProps {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-export default function MapListPage() {
-  const { places, setActivePlace } = useContext(MapContext)
-  const { categories, accessibilities } = useContext(FilterContext)
-  const router = useRouter()
-  const onClick = (place: DeepPartial<Place>) => router.push('/' + place.id)
-  const filteredPlaces = useMemo(
-    () => filterPlaces(places || [], categories, accessibilities),
-    [places, categories, accessibilities]
-  )
-
-  useEffect(() => {
-    setActivePlace(null)
-  }, [setActivePlace])
-
-  if (!places) {
-    return <>Loading</>
-  }
+export default async function MapListPage({ searchParams }: PageProps) {
+  const bounds = parseBoundsFromSearchParams(searchParams)
+  const places = bounds ? await getPlacesByBounce() : null
+  console.log(searchParams)
 
   return (
     <>
-      <Group h={56} mb="2xl" justify="space-between">
-        <Title order={2}>Uzhhorod</Title>
-        <Title opacity={0.7} order={2} fw="normal">
-          {filteredPlaces.length}
-        </Title>
-      </Group>
-      <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
-        {renderList(filteredPlaces, onClick)}
-      </DStack>
+      <Box component="main" className={classes['main']}>
+        {!places && (
+          <Center h="100%">
+            <Loader />
+          </Center>
+        )}
+        {places && (
+          <>
+            <Group h={56} mb="2xl" justify="space-between">
+              <Title order={2}>New York</Title>
+              <Title opacity={0.7} order={2} fw="normal">
+                {places.length}
+              </Title>
+            </Group>
+            <PlaceList places={places || []} partHref="/" />
+          </>
+        )}
+      </Box>
+      <Box component="aside" className={classes['map']}>
+        <Map places={places || []} bounds={bounds} />
+      </Box>
     </>
   )
 }

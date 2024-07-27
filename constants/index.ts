@@ -1,31 +1,39 @@
-import { Accessibility, Category } from '@/types'
+import { Accessibility, Category } from '@/services/types'
 
 export const AccessibilityColorMap = {
-  [Accessibility.Compliant]: 'green',
-  [Accessibility.PartiallyCompliant]: 'yellow',
-  [Accessibility.NonCompliant]: 'red',
-  [Accessibility.Unknown]: 'black',
+  [Accessibility.compliant]: 'green',
+  [Accessibility.partially_compliant]: 'yellow',
+  [Accessibility.non_compliant]: 'red',
+  [Accessibility.unknown]: 'black',
 }
+
+export const AccessibilityLabelMap = {
+  [Accessibility.compliant]: 'Compliant',
+  [Accessibility.partially_compliant]: 'Partially',
+  [Accessibility.non_compliant]: 'Non Compliant',
+  [Accessibility.unknown]: 'Unknown',
+}
+
 export const FilterAccessibilityArray = [
-  Accessibility.Compliant,
-  Accessibility.PartiallyCompliant,
-  Accessibility.NonCompliant,
+  Accessibility.compliant,
+  Accessibility.partially_compliant,
+  Accessibility.non_compliant,
 ]
 
 export const AccessibilityArray = [
   ...FilterAccessibilityArray,
-  Accessibility.Unknown,
+  Accessibility.unknown,
 ]
 
 export const CategoriesArray = [
-  Category.Food,
-  Category.Drinks,
-  Category.Groceries,
-  Category.Shopping,
-  Category.Sites,
-  Category.Hotels,
-  Category.Health,
-  Category.Transport,
+  Category.food,
+  Category.drinks,
+  Category.groceries,
+  Category.shopping,
+  Category.sites,
+  Category.hotels,
+  Category.health,
+  Category.transport,
 ]
 
 export enum StorageKeys {

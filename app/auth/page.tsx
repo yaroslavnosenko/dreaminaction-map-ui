@@ -1,18 +1,25 @@
-import {
-  Anchor,
-  Box,
-  Button,
-  Center,
-  Divider,
-  Text,
-  Title,
-} from '@mantine/core'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaFacebook, FaGoogle } from 'react-icons/fa'
+import { redirect } from 'next/navigation'
+
+import { Anchor, Box, Button, Center, Divider, Title } from '@mantine/core'
 import { MdArrowBack } from 'react-icons/md'
 
-export default function Auth() {
+import { auth } from '@/services'
+
+export default function AuthMock() {
+  const token = cookies().get('auth-token')
+  if (token) return redirect('/')
+
+  async function handleAuth(formData: FormData) {
+    'use server'
+    const inputToken = formData.get('token')
+    console.log(formData.get('token'))
+    const { token } = await auth(inputToken as string, 'facebook')
+    cookies().set('auth-token', token)
+  }
+
   return (
     <Center mih="100svh" p="lg">
       <Box maw="24rem" w="100%">
@@ -30,37 +37,27 @@ export default function Auth() {
           Sign in
         </Title>
         <Box my="2xl">
-          <Button
-            leftSection={<FaGoogle />}
-            w="100%"
-            color="red"
-            size="lg"
-            radius="xl"
-          >
-            Sign in with Google
-          </Button>
+          <form action={handleAuth}>
+            <input hidden readOnly type="text" name="token" value="admin" />
+            <Button w="100%" color="green" size="lg" radius="xl" type="submit">
+              Sign in as Admin
+            </Button>
+          </form>
           <Divider my="md" label="or" labelPosition="center" />
-          <Button
-            leftSection={<FaFacebook />}
-            w="100%"
-            size="lg"
-            radius="xl"
-            color="blue"
-          >
-            Sign in with Facebook
-          </Button>
+          <form action={handleAuth}>
+            <input hidden readOnly type="text" name="token" value="manager" />
+            <Button w="100%" color="yellow" size="lg" radius="xl" type="submit">
+              Sign in as Manager
+            </Button>
+          </form>
+          <Divider my="md" label="or" labelPosition="center" />
+          <form action={handleAuth}>
+            <input hidden readOnly type="text" name="token" value="user" />
+            <Button w="100%" color="red" size="lg" radius="xl" type="submit">
+              Sign in as User
+            </Button>
+          </form>
         </Box>
-        <Text>
-          By creating an account you agree with our{' '}
-          <Anchor c="green" component={Link} href="/">
-            Terms of Service
-          </Anchor>{' '}
-          and{' '}
-          <Anchor c="green" component={Link} href="/">
-            Privacy Policy
-          </Anchor>
-          .
-        </Text>
         <Button
           px={0}
           leftSection={<MdArrowBack size={24} />}

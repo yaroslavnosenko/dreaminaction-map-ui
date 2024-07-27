@@ -1,3 +1,4 @@
+'use client'
 import { Input, InputProps } from '@mantine/core'
 import { ChangeEvent, useCallback, useState } from 'react'
 

@@ -1,23 +1,24 @@
+'use client'
+
 import { PlaceIcon } from '@/components/place'
-import { AccessibilityColorMap } from '@/constants'
-import { Accessibility, Category, DeepPartial, Place } from '@/types'
+import { DStack } from '@/components/ui'
+import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
+import { Accessibility, Category, PlaceResponse } from '@/services/types'
 import { Box, Group, Text, Title } from '@mantine/core'
+import { useRouter } from 'next/navigation'
 import { MdAccessibleForward } from 'react-icons/md'
 
-type PlaceType = DeepPartial<Place>
-
 type PlaceItemProps = {
-  place: PlaceType
-  onClick: (place: PlaceType) => void
+  place: PlaceResponse
+  onClick: (place: PlaceResponse) => void
 }
 
 export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
   const {
     name,
     address,
-    featuresCount,
-    category = Category.Sites,
-    accessibility = Accessibility.Unknown,
+    category = Category.sites,
+    accessibility = Accessibility.unknown,
   } = place
   return (
     <Box onClick={() => onClick(place)} className="animated">
@@ -41,22 +42,28 @@ export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
         >
           <MdAccessibleForward size={24} />
         </Box>
-        <Text>{accessibility}</Text>
-        {featuresCount !== undefined && (
-          <>
-            <Text>•</Text>
-            <Text>{featuresCount} features</Text>
-          </>
-        )}
+        <Text>{AccessibilityLabelMap[accessibility]}</Text>
       </Group>
     </Box>
   )
 }
 
-export const renderList = (
-  places: PlaceType[],
-  onClick: (place: PlaceType) => void
-) =>
-  places.map((place) => (
-    <PlaceItem place={place} onClick={onClick} key={place.id} />
-  ))
+interface PlaceListProps {
+  places: PlaceResponse[]
+  partHref: string
+}
+
+export const PlaceList = ({ places, partHref }: PlaceListProps) => {
+  const router = useRouter()
+  return (
+    <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
+      {places.map((place) => (
+        <PlaceItem
+          place={place}
+          onClick={() => router.push(partHref + place.id)}
+          key={place.id}
+        />
+      ))}
+    </DStack>
+  )
+}

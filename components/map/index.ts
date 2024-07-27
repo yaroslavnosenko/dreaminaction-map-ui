@@ -1,6 +1,4 @@
 export * from './filter'
-export * from './filter-context'
 export * from './footer'
 export * from './header'
 export * from './map'
-export * from './map-context'

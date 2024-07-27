@@ -1,12 +1,14 @@
-import { StorageKeys } from '@/constants'
-import { Anchor, Button, Flex } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { Anchor, Button, Flex } from '@mantine/core'
 import { MdOutlineAccountCircle, MdOutlineKey } from 'react-icons/md'
 
-export const Header = () => {
-  const auth = localStorage.getItem(StorageKeys.Auth)
+interface AuthProps {
+  auth: boolean
+}
 
+export const Header = ({ auth }: AuthProps) => {
   return (
     <Flex justify="space-between" align="center">
       <Anchor component={Link} href="/" w={56} h={56}>

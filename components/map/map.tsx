@@ -1,30 +1,40 @@
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+'use client'
+
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Paper } from '@mantine/core'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import MapGL, { MapRef, Marker } from 'react-map-gl'
 
-import { FilterContext, useMap } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
-import { Uzhhorod, fontFamily } from '@/configs'
+import { fontFamily, initLngLat } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
 
-import { Accessibility, Category, PlaceType } from '@/types'
-import { filterPlaces } from '@/utils'
+import {
+  Accessibility,
+  BoundsQuery,
+  Category,
+  PlaceResponse,
+} from '@/services/types'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-type PinProps = {
-  onClick: (place: PlaceType) => void
-  place: PlaceType
+interface PinProps {
+  onClick: (place: PlaceResponse) => void
+  place: PlaceResponse
   active: boolean
+}
+
+interface MapProps {
+  places: PlaceResponse[]
+  bounds: BoundsQuery | null
 }
 
 const Pin = ({ place, active, onClick }: PinProps) => {
   const {
     lat = 0,
     lng = 0,
-    accessibility = Accessibility.Unknown,
-    category = Category.Sites,
+    accessibility = Accessibility.unknown,
+    category = Category.sites,
   } = place
 
   return (
@@ -48,36 +58,27 @@ const Pin = ({ place, active, onClick }: PinProps) => {
   )
 }
 
-export const Map = () => {
+export const Map = ({ places, bounds }: MapProps) => {
+  const search = useSearchParams()
   const router = useRouter()
   const mapRef = useRef<MapRef>(null)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
-  const { categories, accessibilities } = useContext(FilterContext)
-  const { places, activePlace, initMapPosition, setBounds, bounds } = useMap()
-
-  const extendedPlaces = useMemo(() => {
-    if (!places) return []
-    const filtered = filterPlaces(places, categories, accessibilities)
-    if (!activePlace) return filtered
-    return [...filtered.filter(({ id }) => id !== activePlace.id), activePlace]
-  }, [places, activePlace, categories, accessibilities])
+  const onMoveEnd = useCallback(() => {
+    const { _ne, _sw } = mapRef.current?.getBounds()!
+    const params = new URLSearchParams(search.toString())
+    params.set('neLat', _ne.lat.toString())
+    params.set('neLng', _ne.lng.toString())
+    params.set('swLat', _sw.lat.toString())
+    params.set('swLng', _sw.lng.toString())
+    router.push(location.pathname + '?' + params.toString())
+  }, [router, search])
 
   useEffect(() => {
-    if (isLoaded && initMapPosition && mapRef.current) {
-      mapRef.current.flyTo({ center: initMapPosition, zoom: 12, speed: 20 })
+    if (isLoaded && !bounds) {
+      onMoveEnd()
     }
-  }, [isLoaded, initMapPosition, mapRef])
-
-  const onMoveEnd = () => {
-    const { _ne, _sw } = mapRef.current?.getBounds()!
-    setBounds({
-      neLat: _ne.lat,
-      neLng: _ne.lng,
-      swLat: _sw.lat,
-      swLng: _sw.lng,
-    })
-  }
+  }, [bounds, router, isLoaded, onMoveEnd])
 
   return (
     <MapGL
@@ -93,17 +94,17 @@ export const Map = () => {
         setIsLoaded(true)
       }}
       initialViewState={{
-        latitude: Uzhhorod.lat,
-        longitude: Uzhhorod.lng,
+        latitude: initLngLat.lat,
+        longitude: initLngLat.lng,
         zoom: 12,
       }}
       onMoveEnd={onMoveEnd}
     >
-      {extendedPlaces.map((place) => (
+      {places.map((place) => (
         <Pin
           onClick={() => router.push('/' + place?.id)}
-          active={place?.id === activePlace?.id}
-          place={place!}
+          active={false}
+          place={place}
           key={place?.id}
         />
       ))}

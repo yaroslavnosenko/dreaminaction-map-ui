@@ -1,6 +1,8 @@
-import { useFiter } from '@/components/map'
+'use client'
+
 import {
   AccessibilityColorMap,
+  AccessibilityLabelMap,
   CategoriesArray,
   FilterAccessibilityArray,
 } from '@/constants'
@@ -21,8 +23,6 @@ type FilterProps = {} & BoxProps
 
 export const Filter = ({ ...props }: FilterProps) => {
   const [open, setOpen] = useState(true)
-  const { accessibilities, categories, toggleAccessibility, toggleCategory } =
-    useFiter()
 
   return (
     <Box {...props}>
@@ -55,12 +55,12 @@ export const Filter = ({ ...props }: FilterProps) => {
             {FilterAccessibilityArray.map((accessibility) => (
               <Checkbox
                 radius="xl"
-                checked={accessibilities.includes(accessibility)}
-                onChange={() => toggleAccessibility(accessibility)}
+                checked={true}
+                onChange={console.log}
                 color={AccessibilityColorMap[accessibility]}
                 key={accessibility}
                 size="md"
-                label={accessibility}
+                label={AccessibilityLabelMap[accessibility]}
               />
             ))}
           </Stack>
@@ -69,8 +69,8 @@ export const Filter = ({ ...props }: FilterProps) => {
           <SimpleGrid mt="lg" cols={2} spacing="md">
             {CategoriesArray.map((category) => (
               <Checkbox
-                checked={categories.includes(category)}
-                onChange={() => toggleCategory(category)}
+                checked={true}
+                onChange={console.log}
                 key={category}
                 radius="xl"
                 size="md"

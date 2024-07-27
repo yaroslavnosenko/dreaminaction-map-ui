@@ -1,4 +1,5 @@
-import { Category } from '@/types'
+import { Category } from '@/services/types'
+
 import {
   MdAccountBalance,
   MdCoffee,
@@ -11,14 +12,14 @@ import {
 } from 'react-icons/md'
 
 const iconsMap = {
-  [Category.Groceries]: <MdShoppingCart size={24} />,
-  [Category.Shopping]: <MdShoppingBag size={24} />,
-  [Category.Food]: <MdRestaurant size={24} />,
-  [Category.Drinks]: <MdCoffee size={24} />,
-  [Category.Sites]: <MdAccountBalance size={24} />,
-  [Category.Health]: <MdFavorite size={24} />,
-  [Category.Hotels]: <MdHotel size={24} />,
-  [Category.Transport]: <MdDirectionsBus size={24} />,
+  [Category.groceries]: <MdShoppingCart size={24} />,
+  [Category.shopping]: <MdShoppingBag size={24} />,
+  [Category.food]: <MdRestaurant size={24} />,
+  [Category.drinks]: <MdCoffee size={24} />,
+  [Category.sites]: <MdAccountBalance size={24} />,
+  [Category.health]: <MdFavorite size={24} />,
+  [Category.hotels]: <MdHotel size={24} />,
+  [Category.transport]: <MdDirectionsBus size={24} />,
 }
 
 type PlaceIconProps = {
