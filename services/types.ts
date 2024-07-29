@@ -1,3 +1,7 @@
+export interface FeatureRequest {
+  name: string
+}
+
 export enum UserRole {
   user = 'user',
   manager = 'manager',

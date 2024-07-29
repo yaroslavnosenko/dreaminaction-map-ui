@@ -15,7 +15,6 @@ interface PageProps {
 export default async function MapListPage({ searchParams }: PageProps) {
   const bounds = parseBoundsFromSearchParams(searchParams)
   const places = bounds ? await getPlacesByBounce() : null
-  console.log(searchParams)
 
   return (
     <>
