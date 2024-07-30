@@ -20,3 +20,8 @@ export type PlaceInput = {
   lng: number
   description?: string
 }
+
+export type FeatureMapping = {
+  id: string
+  available: boolean
+}

@@ -3,7 +3,14 @@ import { revalidateTag } from 'next/cache'
 
 import { server } from '@/configs'
 import { places } from '@/mocks'
-import { Accessibility, Bounds, ID, Place, PlaceInput } from '@/types'
+import {
+  Accessibility,
+  Bounds,
+  FeatureMapping,
+  ID,
+  Place,
+  PlaceInput,
+} from '@/types'
 import { parseJwt } from '@/utils'
 
 import { getAuth } from './auth'
@@ -80,6 +87,23 @@ export const setPlaceOwner = async (
     },
     method: 'PUT',
     body: JSON.stringify({ id }),
+  })
+  revalidateTag('places')
+  return res.ok ? ((await res.json()) as ID) : res.status
+}
+
+export const setPlaceFeatures = async (
+  id: string,
+  features: FeatureMapping[]
+): Promise<ID | number> => {
+  const token = getAuth()
+  const res = await fetch(server + '/places/' + id + '/features', {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + token,
+    },
+    method: 'PUT',
+    body: JSON.stringify({ features }),
   })
   revalidateTag('places')
   return res.ok ? ((await res.json()) as ID) : res.status

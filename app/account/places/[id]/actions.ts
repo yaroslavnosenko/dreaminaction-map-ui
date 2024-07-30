@@ -6,9 +6,10 @@ import {
   createPlace,
   getUsers,
   setPlaceAccessibility,
+  setPlaceFeatures,
   setPlaceOwner,
 } from '@/services'
-import { Accessibility, PlaceInput, User } from '@/types'
+import { Accessibility, FeatureMapping, PlaceInput, User } from '@/types'
 
 export const onPlaceCreate = async (input: PlaceInput) => {
   const res = await createPlace(input)
@@ -46,4 +47,14 @@ export const onFetchUsers = async (query: string): Promise<User[]> => {
     redirect('/error')
   }
   return res
+}
+
+export const onSetFeatures = async (
+  id: string,
+  features: FeatureMapping[]
+): Promise<void> => {
+  const res = await setPlaceFeatures(id, features)
+  if (typeof res === 'number') {
+    redirect('/error')
+  }
 }
