@@ -1,17 +1,17 @@
 import { DStack } from '@/components/ui'
-import { Feature, PlaceType } from '@/types'
+import { Feature, Place } from '@/types'
 import { Box, Button, Flex, NativeSelect, Text } from '@mantine/core'
 
-type TabProps = {
-  place?: PlaceType | null
-  allFeatures?: Feature[]
+type FormProps = {
+  place: Place
+  allFeatures: Feature[]
 }
 
-export const FeaturesTab = ({ place, allFeatures }: TabProps) => {
+export const FeaturesForm = ({ place, allFeatures }: FormProps) => {
   return (
     <Box>
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
-        {allFeatures?.map(({ id, name }) => (
+        {allFeatures.map(({ id, name }) => (
           <Flex
             gap="md"
             wrap="wrap"

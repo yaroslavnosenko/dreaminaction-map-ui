@@ -1,4 +1,4 @@
-import { Accessibility, Category } from './enums'
+import { Category } from './enums'
 
 export type Bounds = {
   neLat: number
@@ -15,7 +15,6 @@ export type PlaceInput = {
   id: string
   name: string
   category: Category
-  accessibility: Accessibility
   address: string
   lat: number
   lng: number
