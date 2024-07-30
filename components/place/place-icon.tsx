@@ -1,4 +1,4 @@
-import { Category } from '@/services/types'
+import { Category } from '@/types'
 
 import {
   MdAccountBalance,

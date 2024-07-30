@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 import { Anchor, Box, Button, Center, Divider, Title } from '@mantine/core'
 import { MdArrowBack } from 'react-icons/md'
 
-import { auth } from '@/services'
+import { getToken } from '@/services'
 
 export default function AuthMock() {
   const token = cookies().get('auth-token')
@@ -16,7 +16,7 @@ export default function AuthMock() {
     'use server'
     const inputToken = formData.get('token')
     console.log(formData.get('token'))
-    const { token } = await auth(inputToken as string, 'facebook')
+    const { token } = await getToken(inputToken as string, 'facebook')
     cookies().set('auth-token', token)
   }
 

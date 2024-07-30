@@ -1,8 +1,11 @@
-import { server } from '@/configs'
-import { revalidateTag } from 'next/cache'
-import { FeatureRequest, FeatureResponse, IdResponse } from './types'
+'use server'
 
-export const getFeatures = async (): Promise<FeatureResponse[]> => {
+import { server } from '@/configs'
+import { Feature, FeatureInput, ID } from '@/types'
+import { revalidateTag } from 'next/cache'
+import { getAuth } from './auth'
+
+export const getFeatures = async (): Promise<Feature[]> => {
   const res = await fetch(server + '/features', {
     headers: {
       'Content-Type': 'application/json',
@@ -13,46 +16,44 @@ export const getFeatures = async (): Promise<FeatureResponse[]> => {
 }
 
 export const createFeature = async (
-  authToken: string,
-  data: FeatureRequest
-): Promise<IdResponse | number> => {
+  data: FeatureInput
+): Promise<ID | number> => {
+  const token = getAuth()
   const res = await fetch(server + '/features', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + authToken,
+      authorization: 'Bearer ' + token,
     },
     method: 'POST',
     body: JSON.stringify(data),
   })
   revalidateTag('features')
-  return res.status === 201 ? ((await res.json()) as IdResponse) : res.status
+  return res.ok ? ((await res.json()) as ID) : res.status
 }
 
 export const updateFeature = async (
-  authToken: string,
   id: string,
-  data: FeatureRequest
-): Promise<IdResponse | number> => {
+  data: FeatureInput
+): Promise<ID | number> => {
+  const token = getAuth()
   const res = await fetch(server + '/features/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + authToken,
+      authorization: 'Bearer ' + token,
     },
     method: 'PUT',
     body: JSON.stringify(data),
   })
   revalidateTag('features')
-  return res.status === 200 ? ((await res.json()) as IdResponse) : res.status
+  return res.ok ? ((await res.json()) as ID) : res.status
 }
 
-export const deleteFeature = async (
-  authToken: string,
-  id: string
-): Promise<number> => {
+export const deleteFeature = async (id: string): Promise<number> => {
+  const token = getAuth()
   const res = await fetch(server + '/features/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + authToken,
+      authorization: 'Bearer ' + token,
     },
     method: 'DELETE',
   })

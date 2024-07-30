@@ -1,6 +1,6 @@
-import { Accessibility, Category, PlaceResponse } from '@/services/types'
+import { Accessibility, Category, Place } from '@/types'
 
-export const places: PlaceResponse[] = [
+export const places: Place[] = [
   {
     id: 'd6dcdd59-edd5-44f1-9fff-e5bc34e01f99',
     name: 'Uzhhorod Castle',

@@ -3,14 +3,14 @@
 import { PlaceIcon } from '@/components/place'
 import { DStack } from '@/components/ui'
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
-import { Accessibility, Category, PlaceResponse } from '@/services/types'
+import { Accessibility, Category, Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 import { MdAccessibleForward } from 'react-icons/md'
 
 type PlaceItemProps = {
-  place: PlaceResponse
-  onClick: (place: PlaceResponse) => void
+  place: Place
+  onClick: (place: Place) => void
 }
 
 export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
@@ -49,7 +49,7 @@ export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
 }
 
 interface PlaceListProps {
-  places: PlaceResponse[]
+  places: Place[]
   partHref: string
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { FeatureResponse } from '@/services/types'
+import { Feature, FeatureInput } from '@/types'
 import {
   ActionIcon,
   Box,
@@ -12,33 +12,26 @@ import {
   Title,
 } from '@mantine/core'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MdArrowBack, MdDelete } from 'react-icons/md'
 import { onCreate, onDelete, onUpdate } from './actions'
 
-type InputFields = {
-  name: string
-}
-
 type FeatureFormProps = {
   isCreate: boolean
-  feature?: FeatureResponse
+  feature?: Feature
 }
 
 export const FeatureForm = ({ isCreate, feature }: FeatureFormProps) => {
-  const { register, handleSubmit, setValue } = useForm<InputFields>()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const router = useRouter()
 
-  const onSubmit: SubmitHandler<InputFields> = async (data) => {
+  const { register, handleSubmit, setValue } = useForm<FeatureInput>()
+
+  const onSubmit: SubmitHandler<FeatureInput> = async (input) => {
     if (isCreate) {
-      await onCreate(data)
-      router.push('/account/features')
+      await onCreate(input)
     } else {
-      await onUpdate(feature?.id!, data)
-      router.push('/account/features')
+      await onUpdate(feature?.id!, input)
     }
   }
 
@@ -102,11 +95,9 @@ export const FeatureForm = ({ isCreate, feature }: FeatureFormProps) => {
           <Button onClick={() => setIsModalOpen(false)} variant="transparent">
             Cancel
           </Button>
-          {!isCreate && (
-            <Button onClick={handleDelete} color="red">
-              Delete
-            </Button>
-          )}
+          <Button onClick={handleDelete} color="red">
+            Delete
+          </Button>
         </Group>
       </Modal>
     </form>

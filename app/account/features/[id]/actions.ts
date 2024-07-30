@@ -1,33 +1,29 @@
 'use server'
 
 import { createFeature, deleteFeature, updateFeature } from '@/services'
-import { FeatureRequest } from '@/services/types'
-import { cookies } from 'next/headers'
+import { FeatureInput } from '@/types'
+import { redirect } from 'next/navigation'
 
-export const onCreate = async (
-  data: FeatureRequest
-): Promise<string | null> => {
-  const token = cookies().get('auth-token')?.value
-  const res = await createFeature(token || '', data)
+export const onCreate = async (input: FeatureInput) => {
+  const res = await createFeature(input)
   if (typeof res === 'number') {
-    return null
+    redirect('/error')
   }
-  return res.id
+  redirect('/account/features')
 }
 
-export const onUpdate = async (
-  id: string,
-  data: FeatureRequest
-): Promise<string | null> => {
-  const token = cookies().get('auth-token')?.value
-  const res = await updateFeature(token || '', id, data)
+export const onUpdate = async (id: string, input: FeatureInput) => {
+  const res = await updateFeature(id, input)
   if (typeof res === 'number') {
-    return null
+    redirect('/error')
   }
-  return res.id
+  redirect('/account/features')
 }
 
 export const onDelete = async (id: string) => {
-  const token = cookies().get('auth-token')?.value
-  await deleteFeature(token || '', id)
+  const res = await deleteFeature(id)
+  if (res !== 200) {
+    redirect('/error')
+  }
+  redirect('/account/features')
 }

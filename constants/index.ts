@@ -1,4 +1,4 @@
-import { Accessibility, Category } from '@/services/types'
+import { Accessibility, Category } from '@/types'
 
 export const AccessibilityColorMap = {
   [Accessibility.compliant]: 'green',
@@ -35,9 +35,3 @@ export const CategoriesArray = [
   Category.health,
   Category.transport,
 ]
-
-export enum StorageKeys {
-  Auth = 'auth-token',
-  FilterCategories = 'filter-categories',
-  FilterAccessibilities = 'filter-accessibilities',
-}

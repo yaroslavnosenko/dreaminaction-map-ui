@@ -10,23 +10,18 @@ import { PlaceIcon } from '@/components/place'
 import { fontFamily, initLngLat } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
 
-import {
-  Accessibility,
-  BoundsQuery,
-  Category,
-  PlaceResponse,
-} from '@/services/types'
+import { Accessibility, Bounds, Category, Place } from '@/types'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 interface PinProps {
-  onClick: (place: PlaceResponse) => void
-  place: PlaceResponse
+  onClick: (place: Place) => void
+  place: Place
   active: boolean
 }
 
 interface MapProps {
-  places: PlaceResponse[]
-  bounds: BoundsQuery | null
+  places: Place[]
+  bounds: Bounds | null
 }
 
 const Pin = ({ place, active, onClick }: PinProps) => {

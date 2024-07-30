@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { MdAdd } from 'react-icons/md'
 
 import { PlaceList } from '@/components/place'
-import { getPlacesByBounce } from '@/services'
+import { getMyPlaces } from '@/services'
 
 export default async function Places() {
-  const places = await getPlacesByBounce()
+  const places = await getMyPlaces()
 
   return (
     <Box>

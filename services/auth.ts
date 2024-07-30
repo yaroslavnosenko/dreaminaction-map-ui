@@ -1,14 +1,19 @@
 import { server } from '@/configs'
-import { TokenResponse } from './types'
+import { Token } from '@/types'
+import { cookies } from 'next/headers'
 
-export const auth = async (
+export const getToken = async (
   token: string,
   provider: 'facebook' | 'google'
-): Promise<TokenResponse> => {
+): Promise<Token> => {
   const res = await fetch(server + '/auth', {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify({ provider, token }),
   })
-  return (await res.json()) as TokenResponse
+  return (await res.json()) as Token
+}
+
+export const getAuth = (): string | null => {
+  return cookies().get('auth-token')?.value || null
 }

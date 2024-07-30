@@ -10,7 +10,7 @@ import classes from '../layout.module.css'
 
 import { PlaceIcon } from '@/components/place'
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
-import { getPlacesByBounce, getPlacesById } from '@/services'
+import { getPlaceById, getPlacesByBounce } from '@/services'
 import { parseBoundsFromSearchParams } from '@/utils'
 
 interface PageProps {
@@ -22,7 +22,7 @@ export default async function MapPage({
   params: { id },
   searchParams,
 }: PageProps) {
-  const place = await getPlacesById(id)
+  const place = await getPlaceById(id)
   const bounds = parseBoundsFromSearchParams(searchParams)
   const places = bounds ? await getPlacesByBounce() : null
 
