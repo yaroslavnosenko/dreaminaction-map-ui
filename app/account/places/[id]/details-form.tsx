@@ -1,42 +1,40 @@
 import { CategoriesArray } from '@/constants'
 import { Place, PlaceInput } from '@/types'
 import {
-  Autocomplete,
   Box,
   Button,
   Group,
-  Input,
   NativeSelect,
   Stack,
   TextInput,
   Textarea,
 } from '@mantine/core'
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MdOpenInNew } from 'react-icons/md'
+import { onPlaceCreate } from './actions'
 
 type FormProps = {
   place: Place | null
 }
 
 export const DetailsForm = ({ place }: FormProps) => {
-  const { register, handleSubmit, setValue } = useForm<PlaceInput>()
+  const { register, handleSubmit } = useForm<PlaceInput>({
+    values: place ? place : undefined,
+  })
 
-  const onSubmit: SubmitHandler<PlaceInput> = (data) => {
-    console.log(data)
-  }
-
-  useEffect(() => {
-    if (place) {
+  const onSubmit: SubmitHandler<PlaceInput> = async (data) => {
+    const updatedData = { ...data, lng: 0, lat: 0 }
+    console.log(updatedData)
+    if (!place) {
+      await onPlaceCreate(updatedData)
     }
-  }, [place])
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap="lg">
         <TextInput
-          value={place?.name}
           required
           size="md"
           label="Name"
@@ -55,15 +53,13 @@ export const DetailsForm = ({ place }: FormProps) => {
           ]}
           {...register('category')}
         />
-        <Autocomplete
+        <TextInput
           required
           size="md"
-          data={['React', 'Angular']}
           label="Address"
           placeholder="Address"
+          {...register('address')}
         />
-        <Input {...register('lat')} type="number" />
-        <Input {...register('lat')} type="number" />
         <Textarea
           size="md"
           label="Description"

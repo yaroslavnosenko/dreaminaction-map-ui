@@ -1,7 +1,8 @@
-import { server } from '@/configs'
-import { ID, User, UserRole } from '@/types'
 import { revalidateTag } from 'next/cache'
-import { getAuth } from './auth'
+
+import { server } from '@/configs'
+import { getAuth } from '@/services'
+import { ID, User, UserRole } from '@/types'
 
 export const getUsers = async (query?: string): Promise<User[] | number> => {
   const token = getAuth()

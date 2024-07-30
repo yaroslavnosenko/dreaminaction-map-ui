@@ -1,8 +1,9 @@
 'use server'
+import { revalidateTag } from 'next/cache'
 
 import { server } from '@/configs'
 import { Feature, FeatureInput, ID } from '@/types'
-import { revalidateTag } from 'next/cache'
+
 import { getAuth } from './auth'
 
 export const getFeatures = async (): Promise<Feature[]> => {

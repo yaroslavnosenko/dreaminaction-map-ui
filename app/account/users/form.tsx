@@ -4,6 +4,7 @@ import { UserRole } from '@/types'
 import { ActionIcon, Button, Group, Modal, NativeSelect } from '@mantine/core'
 import { ChangeEvent, useState } from 'react'
 import { MdDelete } from 'react-icons/md'
+import { toast } from 'react-toastify'
 import { onDelete, onSetRole } from './actions'
 
 type UserFormProps = {
@@ -16,7 +17,8 @@ export const UserForm = ({ role, id, isAdmin }: UserFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const handleRoleChange = async (event: ChangeEvent<HTMLSelectElement>) => {
-    await onSetRole(id, event.target.value as UserRole)
+    const role = await onSetRole(id, event.target.value as UserRole)
+    toast.success('Role changed to ' + role)
   }
 
   const handleDelete = async () => {

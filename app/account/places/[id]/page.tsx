@@ -14,6 +14,7 @@ interface PageProps {
 export default async function SavePlace({ params: { id } }: PageProps) {
   const isCreate = id === 'new'
   const place = await getPlaceById(id)
+  console.log(place)
   if (!isCreate && !place) {
     return redirect('/account')
   }
