@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Group, Title } from '@mantine/core'
+import { Anchor, Box, Button, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 import { MdAdd } from 'react-icons/md'
 
@@ -42,6 +42,7 @@ export default async function Features() {
           </Anchor>
         ))}
       </DStack>
+      {features.length === 0 && <Text>List is empty</Text>}
     </Box>
   )
 }

@@ -1,2 +1,2 @@
-export * from './DStack'
-export * from './SearchInput'
+export * from './d-stack'
+export * from './search-input'

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useCallback, useState } from 'react'
 
 type SearchInputProps = {
-  initValue: string
+  initValue?: string
   charsCount: number
 } & InputProps
 
@@ -13,7 +13,7 @@ export const SearchInput = ({
   initValue,
   ...props
 }: SearchInputProps) => {
-  const [inputValue, setInputValue] = useState<string>(initValue)
+  const [inputValue, setInputValue] = useState<string | undefined>(initValue)
   const router = useRouter()
   const search = useSearchParams()
 
@@ -22,10 +22,13 @@ export const SearchInput = ({
       if (value.length % charsCount === 0) {
         const newSearch = new URLSearchParams(search)
         newSearch.set('query', value)
+        if (value.length === 0) {
+          newSearch.delete('query')
+        }
         router.push(location.pathname + '?' + newSearch.toString())
       }
     },
-    [charsCount, router]
+    [charsCount, router, search]
   )
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
