@@ -12,6 +12,7 @@ import { PlaceIcon } from '@/components/place'
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
 import { getPlaceById, getPlacesByBounce } from '@/services'
 import { parseBoundsFromSearchParams } from '@/utils'
+import { redirect } from 'next/navigation'
 
 interface PageProps {
   params: { id: string }
@@ -23,15 +24,21 @@ export default async function MapPage({
   searchParams,
 }: PageProps) {
   const place = await getPlaceById(id)
+  if (!place) {
+    redirect('/')
+  }
   const bounds = parseBoundsFromSearchParams(searchParams)
-  const places = bounds ? await getPlacesByBounce() : null
+  let places = bounds ? await getPlacesByBounce(bounds, [], []) : []
+  if (typeof places === 'number') {
+    places = []
+  }
 
   return (
     <>
       <Box component="main" className={classes['main']}>
         <Group h={56} mb="2xl" justify="space-between">
           <Button
-            // onClick={() => router.push('/')}
+            // onClick={() => router}
             color="black"
             variant="transparent"
             radius="xl"
@@ -69,18 +76,18 @@ export default async function MapPage({
             h={40}
             p={8}
             c="white"
-            bg={AccessibilityColorMap[place!.accessibility]}
+            bg={AccessibilityColorMap[place.accessibility]}
             style={{ borderRadius: 10000 }}
           >
             <MdAccessibleForward size={24} />
           </Box>
-          <Text>{AccessibilityLabelMap[place!.accessibility]}</Text>
+          <Text>{AccessibilityLabelMap[place.accessibility]}</Text>
         </Group>
-        {place!.description && (
+        {place.description && (
           <>
             <Box my="lg" h={1} bg="#f1f1f1" />
             <Text opacity={0.7} my="md">
-              {place!.description}
+              {place.description}
             </Text>
           </>
         )}
@@ -92,7 +99,7 @@ export default async function MapPage({
         <Box my="lg" h={1} bg="#f1f1f1" />
       </Box>
       <Box component="aside" className={classes['map']}>
-        <Map places={places || []} bounds={bounds} />
+        <Map places={places} bounds={bounds} />
       </Box>
     </>
   )

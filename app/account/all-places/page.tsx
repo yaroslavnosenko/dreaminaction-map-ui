@@ -7,12 +7,12 @@ import {
   AccessibilityColorMap,
   AccessibilityLabelMap,
 } from '@/constants'
-import { getPlacesByBounce } from '@/services'
-import { Accessibility } from '@/services/types'
+import { getPlaces } from '@/services'
+import { Accessibility } from '@/types'
 
 export default async function AllPlaces() {
   const accessibilities: Accessibility[] = []
-  const places = await getPlacesByBounce()
+  const places = await getPlaces(accessibilities, '')
 
   return (
     <Box>

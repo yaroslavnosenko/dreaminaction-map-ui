@@ -14,7 +14,10 @@ interface PageProps {
 
 export default async function MapListPage({ searchParams }: PageProps) {
   const bounds = parseBoundsFromSearchParams(searchParams)
-  const places = bounds ? await getPlacesByBounce() : null
+  let places = bounds ? await getPlacesByBounce(bounds, [], []) : []
+  if (typeof places === 'number') {
+    places = []
+  }
 
   return (
     <>
@@ -37,7 +40,7 @@ export default async function MapListPage({ searchParams }: PageProps) {
         )}
       </Box>
       <Box component="aside" className={classes['map']}>
-        <Map places={places || []} bounds={bounds} />
+        <Map places={places} bounds={bounds} />
       </Box>
     </>
   )

@@ -1,10 +1,15 @@
-import { BoundsQuery } from '@/services/types'
+import { Bounds } from '@/types'
 
 export const parseBoundsFromSearchParams = (searchParams: {
   [key: string]: string | string[] | undefined
-}): BoundsQuery | null => {
+}): Bounds | null => {
   if (!searchParams['swLat']) {
     return null
   }
-  return { swLat: 0, swLng: 0, neLat: 0, neLng: 0 }
+  return {
+    swLat: parseFloat(searchParams['swLat'] as string),
+    swLng: parseFloat(searchParams['swLng'] as string),
+    neLat: parseFloat(searchParams['neLat'] as string),
+    neLng: parseFloat(searchParams['neLng'] as string),
+  }
 }

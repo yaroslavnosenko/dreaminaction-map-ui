@@ -6,6 +6,7 @@ import { places } from '@/mocks'
 import {
   Accessibility,
   Bounds,
+  Category,
   FeatureMapping,
   ID,
   Place,
@@ -27,13 +28,43 @@ export const getPlaceById = async (id: string): Promise<Place | null> => {
   return res.ok ? ((await res.json()) as Place) : null
 }
 
-export const getPlacesByBounce = async (bounds: Bounds): Promise<Place[]> => {
+export const getPlaces = async (
+  accessibilities: Accessibility[],
+  query?: string
+): Promise<Place[]> => {
   return places
+}
+
+export const getPlacesByBounce = async (
+  bounds: Bounds,
+  accessibilities: Accessibility[],
+  categories: Category[]
+): Promise<Place[] | number> => {
+  console.log(bounds)
+  const search = new URLSearchParams()
+  search.set('swLat', String(bounds.swLat))
+  search.set('swLng', String(bounds.swLng))
+  search.set('neLat', String(bounds.neLat))
+  search.set('neLng', String(bounds.neLng))
+
+  // search.set('categories', categories.join(','))
+  // search.set('accessibilities', accessibilities.join(','))
+
+  const res = await fetch(server + '/places/bounds?' + search.toString(), {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    next: { tags: ['places'] },
+  })
+  return res.ok ? ((await res.json()) as Place[]) : res.status
 }
 
 export const getMyPlaces = async (): Promise<Place[] | number> => {
   const token = getAuth()
-  const { uid } = parseJwt(token || '')
+  if (!token) {
+    return 403
+  }
+  const { uid } = parseJwt(token)
   const res = await fetch(server + '/users/' + uid + '/places', {
     headers: {
       'Content-Type': 'application/json',
@@ -54,6 +85,7 @@ export const createPlace = async (input: PlaceInput): Promise<ID | number> => {
     method: 'POST',
     body: JSON.stringify(input),
   })
+  console.log(res)
   revalidateTag('places')
   return res.ok ? ((await res.json()) as ID) : res.status
 }

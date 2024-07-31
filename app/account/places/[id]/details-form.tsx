@@ -24,8 +24,11 @@ export const DetailsForm = ({ place }: FormProps) => {
   })
 
   const onSubmit: SubmitHandler<PlaceInput> = async (data) => {
-    const updatedData = { ...data, lng: 0, lat: 0 }
-    console.log(updatedData)
+    const updatedData = {
+      ...data,
+      lng: parseFloat(String(data.lng)),
+      lat: parseFloat(String(data.lat)),
+    }
     if (!place) {
       await onPlaceCreate(updatedData)
     }
@@ -59,6 +62,20 @@ export const DetailsForm = ({ place }: FormProps) => {
           label="Address"
           placeholder="Address"
           {...register('address')}
+        />
+        <TextInput
+          required
+          size="md"
+          label="Latitude"
+          placeholder="Latitude"
+          {...register('lat')}
+        />
+        <TextInput
+          required
+          size="md"
+          label="Longitude"
+          placeholder="Longitude"
+          {...register('lng')}
         />
         <Textarea
           size="md"
