@@ -4,11 +4,20 @@ import { MdAdd } from 'react-icons/md'
 
 import { DStack } from '@/components/ui'
 
-import { getFeatures } from '@/services'
+import { getAuth, getFeatures, getUser } from '@/services'
+import { UserRole } from '@/types'
+import { parseJwt } from '@/utils'
+import { redirect } from 'next/navigation'
 
 export default async function Features() {
   const features = await getFeatures()
-  const isAdmin = true
+  const token = getAuth()
+  const { uid } = parseJwt(token || '')
+  const user = await getUser(uid)
+  if (typeof user === 'number') {
+    return redirect('/auth/logout')
+  }
+  const isAdmin = user.role === UserRole.admin
 
   return (
     <Box>

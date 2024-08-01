@@ -3,8 +3,9 @@ import Link from 'next/link'
 
 import { DStack, SearchInput } from '@/components/ui'
 
-import { getUsers } from '@/services'
-import { User } from '@/types'
+import { getAuth, getUser, getUsers } from '@/services'
+import { User, UserRole } from '@/types'
+import { parseJwt } from '@/utils'
 import { redirect } from 'next/navigation'
 import { UserForm } from './form'
 
@@ -18,7 +19,13 @@ export default async function Users({ searchParams }: PageProps) {
   if (typeof users === 'number') {
     return redirect('/error')
   }
-  const isAdmin = true
+  const token = getAuth()
+  const { uid } = parseJwt(token || '')
+  const user = await getUser(uid)
+  if (typeof user === 'number') {
+    return redirect('/auth/logout')
+  }
+  const isAdmin = user.role === UserRole.admin
 
   return (
     <Box>

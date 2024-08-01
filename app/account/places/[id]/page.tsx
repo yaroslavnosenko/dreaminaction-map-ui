@@ -2,7 +2,9 @@ import { ActionIcon, Box, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { MdArrowBack } from 'react-icons/md'
 
-import { getFeatures, getPlaceById } from '@/services'
+import { getAuth, getFeatures, getPlaceById, getUser } from '@/services'
+import { UserRole } from '@/types'
+import { parseJwt } from '@/utils'
 import { redirect } from 'next/navigation'
 import { PlaceTabs } from './tabs'
 
@@ -14,14 +16,23 @@ interface PageProps {
 export default async function SavePlace({ params: { id } }: PageProps) {
   const isCreate = id === 'new'
   const place = await getPlaceById(id)
-  console.log(place)
-  if (!isCreate && !place) {
+  const token = getAuth()
+  if (!token) {
+    return redirect('/auth')
+  }
+  const { uid } = parseJwt(token)
+  const user = await getUser(uid)
+  if (typeof user === 'number') {
+    return redirect('/auth/logout')
+  }
+
+  if (!isCreate && typeof place === 'number') {
     return redirect('/account')
   }
 
   const features = await getFeatures()
-  const isManager = true
-  const isAdmin = true
+  const isManager = user.role !== UserRole.user
+  const isAdmin = user.role === UserRole.admin
 
   return (
     <Box>
@@ -42,7 +53,7 @@ export default async function SavePlace({ params: { id } }: PageProps) {
         allFeatures={features}
         isManager={isManager}
         isAdmin={isAdmin}
-        place={place}
+        place={typeof place === 'number' ? null : place}
       />
     </Box>
   )

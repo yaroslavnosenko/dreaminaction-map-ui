@@ -9,10 +9,14 @@ import {
 } from '@/constants'
 import { getPlaces } from '@/services'
 import { Accessibility } from '@/types'
+import { redirect } from 'next/navigation'
 
 export default async function AllPlaces() {
   const accessibilities: Accessibility[] = []
-  const places = await getPlaces(accessibilities, '')
+  const places = await getPlaces(accessibilities)
+  if (typeof places === 'number') {
+    return redirect('/auth/logout')
+  }
 
   return (
     <Box>
@@ -33,7 +37,7 @@ export default async function AllPlaces() {
         ))}
       </Flex>
       <Box h={1} bg="#f1f1f1" my="xl" />
-      <PlaceList places={places} partHref="/" />
+      <PlaceList places={places} partHref="/account/places/" />
     </Box>
   )
 }

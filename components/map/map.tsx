@@ -1,9 +1,9 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { Paper } from '@mantine/core'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import MapGL, { MapRef, Marker } from 'react-map-gl'
 
 import { PlaceIcon } from '@/components/place'
@@ -12,16 +12,12 @@ import { AccessibilityColorMap } from '@/constants'
 
 import { Accessibility, Bounds, Category, Place } from '@/types'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { MapContext } from './map-context'
 
 interface PinProps {
   onClick: (place: Place) => void
   place: Place
   active: boolean
-}
-
-interface MapProps {
-  places: Place[]
-  bounds: Bounds | null
 }
 
 const Pin = ({ place, active, onClick }: PinProps) => {
@@ -53,27 +49,29 @@ const Pin = ({ place, active, onClick }: PinProps) => {
   )
 }
 
-export const Map = ({ places, bounds }: MapProps) => {
-  const search = useSearchParams()
+export const Map = () => {
+  const { places } = useContext(MapContext)
+  const { id } = useParams()
   const router = useRouter()
   const mapRef = useRef<MapRef>(null)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const onMoveEnd = useCallback(() => {
     const { _ne, _sw } = mapRef.current?.getBounds()!
-    const params = new URLSearchParams(search.toString())
-    params.set('neLat', _ne.lat.toString())
-    params.set('neLng', _ne.lng.toString())
-    params.set('swLat', _sw.lat.toString())
-    params.set('swLng', _sw.lng.toString())
-    router.push(location.pathname + '?' + params.toString())
-  }, [router, search])
+    const bounds: Bounds = {
+      swLat: _sw.lat,
+      swLng: _sw.lng,
+      neLat: _ne.lat,
+      neLng: _ne.lng,
+    }
+    console.log(bounds)
+  }, [])
 
   useEffect(() => {
-    if (isLoaded && !bounds) {
+    if (isLoaded) {
       onMoveEnd()
     }
-  }, [bounds, router, isLoaded, onMoveEnd])
+  }, [isLoaded, onMoveEnd])
 
   return (
     <MapGL
@@ -81,7 +79,7 @@ export const Map = ({ places, bounds }: MapProps) => {
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       localFontFamily={fontFamily}
       style={{ width: '100%', height: '100%' }}
-      mapStyle="mapbox://styles/mapbox/navigation-day-v1"
+      mapStyle="mapbox://styles/mapbox/light-v11"
       onLoad={() => {
         document
           .querySelector('button.mapboxgl-ctrl-attrib-button')
@@ -98,7 +96,7 @@ export const Map = ({ places, bounds }: MapProps) => {
       {places.map((place) => (
         <Pin
           onClick={() => router.push('/' + place?.id)}
-          active={false}
+          active={id === place.id}
           place={place}
           key={place?.id}
         />

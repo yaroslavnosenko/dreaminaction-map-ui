@@ -12,7 +12,8 @@ import {
 import Link from 'next/link'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MdOpenInNew } from 'react-icons/md'
-import { onPlaceCreate } from './actions'
+import { toast } from 'react-toastify'
+import { onPlaceCreate, onPlaceUpdate } from './actions'
 
 type FormProps = {
   place: Place | null
@@ -31,7 +32,10 @@ export const DetailsForm = ({ place }: FormProps) => {
     }
     if (!place) {
       await onPlaceCreate(updatedData)
+    } else {
+      await onPlaceUpdate(place.id, updatedData)
     }
+    toast.success('Place saved!')
   }
 
   return (

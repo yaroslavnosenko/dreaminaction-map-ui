@@ -5,7 +5,7 @@ import { DStack } from '@/components/ui'
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
 import { Accessibility, Category, Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { MdAccessibleForward } from 'react-icons/md'
 
 type PlaceItemProps = {
@@ -55,12 +55,15 @@ interface PlaceListProps {
 
 export const PlaceList = ({ places, partHref }: PlaceListProps) => {
   const router = useRouter()
+  const search = useSearchParams()
   return (
     <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="xl">
       {places.map((place) => (
         <PlaceItem
           place={place}
-          onClick={() => router.push(partHref + place.id)}
+          onClick={() =>
+            router.push(partHref + place.id + '?' + search.toString())
+          }
           key={place.id}
         />
       ))}

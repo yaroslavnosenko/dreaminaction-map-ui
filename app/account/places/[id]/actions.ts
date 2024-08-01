@@ -8,6 +8,7 @@ import {
   setPlaceAccessibility,
   setPlaceFeatures,
   setPlaceOwner,
+  updatePlace,
 } from '@/services'
 import { Accessibility, FeatureMapping, PlaceInput, User } from '@/types'
 
@@ -18,6 +19,14 @@ export const onPlaceCreate = async (input: PlaceInput) => {
   }
   const { id } = res
   redirect('/account/places/' + id)
+}
+
+export const onPlaceUpdate = async (id: string, input: PlaceInput) => {
+  const res = await updatePlace(id, input)
+  if (typeof res === 'number') {
+    redirect('/error')
+  }
+  redirect('/account/places/' + res.id)
 }
 
 export const onSetPlaceAccessibility = async (

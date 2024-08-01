@@ -1,14 +1,16 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { Anchor, Button, Flex } from '@mantine/core'
+import { useContext } from 'react'
 import { MdOutlineAccountCircle, MdOutlineKey } from 'react-icons/md'
+import { MapContext } from './map-context'
 
-interface AuthProps {
-  auth: boolean
-}
+export const Header = () => {
+  const { auth } = useContext(MapContext)
 
-export const Header = ({ auth }: AuthProps) => {
   return (
     <Flex justify="space-between" align="center">
       <Anchor component={Link} href="/" w={56} h={56}>

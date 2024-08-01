@@ -1,5 +1,6 @@
 import { server } from '@/configs'
 import { Token } from '@/types'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 export const getToken = async (
@@ -11,6 +12,7 @@ export const getToken = async (
     method: 'POST',
     body: JSON.stringify({ provider, token }),
   })
+  revalidateTag('users')
   return (await res.json()) as Token
 }
 

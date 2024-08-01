@@ -1,23 +1,15 @@
-import { cookies } from 'next/headers'
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 
 import { Anchor, Box, Button, Center, Divider, Title } from '@mantine/core'
 import { MdArrowBack } from 'react-icons/md'
-
-import { getToken } from '@/services'
+import { onAuth } from './actions'
 
 export default function AuthMock() {
-  const token = cookies().get('auth-token')
-  if (token) return redirect('/')
-
-  async function handleAuth(formData: FormData) {
-    'use server'
-    const inputToken = formData.get('token')
-    console.log(formData.get('token'))
-    const { token } = await getToken(inputToken as string, 'facebook')
-    cookies().set('auth-token', token)
+  const handleAuth = (token: string) => {
+    onAuth(token)
   }
 
   return (
@@ -37,26 +29,38 @@ export default function AuthMock() {
           Sign in
         </Title>
         <Box my="2xl">
-          <form action={handleAuth}>
-            <input hidden readOnly type="text" name="token" value="admin" />
-            <Button w="100%" color="green" size="lg" radius="xl" type="submit">
-              Sign in as Admin
-            </Button>
-          </form>
+          <Button
+            onClick={() => handleAuth('admin')}
+            w="100%"
+            color="green"
+            size="lg"
+            radius="xl"
+            type="submit"
+          >
+            Sign in as Admin
+          </Button>
           <Divider my="md" label="or" labelPosition="center" />
-          <form action={handleAuth}>
-            <input hidden readOnly type="text" name="token" value="manager" />
-            <Button w="100%" color="yellow" size="lg" radius="xl" type="submit">
-              Sign in as Manager
-            </Button>
-          </form>
+          <Button
+            onClick={() => handleAuth('manager')}
+            w="100%"
+            color="yellow"
+            size="lg"
+            radius="xl"
+            type="submit"
+          >
+            Sign in as Manager
+          </Button>
           <Divider my="md" label="or" labelPosition="center" />
-          <form action={handleAuth}>
-            <input hidden readOnly type="text" name="token" value="user" />
-            <Button w="100%" color="red" size="lg" radius="xl" type="submit">
-              Sign in as User
-            </Button>
-          </form>
+          <Button
+            onClick={() => handleAuth('user')}
+            w="100%"
+            color="red"
+            size="lg"
+            radius="xl"
+            type="submit"
+          >
+            Sign in as User
+          </Button>
         </Box>
         <Button
           px={0}

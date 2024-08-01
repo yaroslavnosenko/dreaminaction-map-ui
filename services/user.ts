@@ -4,6 +4,20 @@ import { server } from '@/configs'
 import { getAuth } from '@/services'
 import { ID, User, UserRole } from '@/types'
 
+export const getUser = async (id: string): Promise<User | number> => {
+  const token = getAuth()
+  const res = await fetch(server + '/users/' + id, {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + token,
+    },
+    next: {
+      tags: ['users'],
+    },
+  })
+  return res.ok ? ((await res.json()) as User) : res.status
+}
+
 export const getUsers = async (query?: string): Promise<User[] | number> => {
   const token = getAuth()
   const search = new URLSearchParams()
