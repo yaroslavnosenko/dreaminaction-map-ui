@@ -122,6 +122,10 @@ export default async function MapPage({
           ))}
         </>
       )}
+      {place.availableFeatures?.length === 0 &&
+        place.unavailableFeatures?.length === 0 && (
+          <Text>No features to show</Text>
+        )}
     </Box>
   )
 }
