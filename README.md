@@ -17,7 +17,10 @@ To run this project locally, follow these steps:
 
    ```bash
    git clone https://github.com/yaroslavnosenko/dreaminaction-map-ui.git
+   
    cd dreaminaction-map-ui
+
+   git checkout rest-api
    ```
 
 2. Install the dependencies:
