@@ -23,7 +23,7 @@ export const getPlaceById = async (id: string): Promise<Place | number> => {
 }
 
 export const getPlaces = async (
-  accessibilities: Accessibility[],
+  accessibilities?: Accessibility[],
   query?: string
 ): Promise<Place[] | number> => {
   const search = new URLSearchParams()

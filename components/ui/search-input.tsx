@@ -1,7 +1,8 @@
 'use client'
+import { ChangeEvent, useCallback, useState } from 'react'
+
 import { Input, InputProps } from '@mantine/core'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChangeEvent, useCallback, useState } from 'react'
 
 type SearchInputProps = {
   initValue?: string

@@ -1,7 +1,8 @@
 'use client'
 
-import { Place } from '@/types'
 import { createContext, PropsWithChildren, useState } from 'react'
+
+import { Place } from '@/types'
 
 type MapContextProps = {
   places: Place[]

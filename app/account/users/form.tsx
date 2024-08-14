@@ -16,8 +16,8 @@ export const UserForm = ({ role, id }: UserFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const handleRoleChange = async (event: ChangeEvent<HTMLSelectElement>) => {
-    const role = await onSetRole(id, event.target.value as UserRole)
-    toast.success('Role changed to ' + role)
+    await onSetRole(id, event.target.value as UserRole)
+    toast.success('Role changed')
   }
 
   const handleDelete = async () => {

@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MdArrowBack, MdDelete } from 'react-icons/md'
+import { toast } from 'react-toastify'
 import { onCreate, onDelete, onUpdate } from './actions'
 
 type FeatureFormProps = {
@@ -33,6 +34,7 @@ export const FeatureForm = ({ isCreate, feature }: FeatureFormProps) => {
     } else {
       await onUpdate(feature?.id!, input)
     }
+    toast.success('Feature Saved')
   }
 
   const handleDelete = () => onDelete(feature?.id!)

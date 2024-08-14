@@ -6,13 +6,13 @@ import { Paper } from '@mantine/core'
 import { useParams, useRouter } from 'next/navigation'
 import MapGL, { MapRef, Marker } from 'react-map-gl'
 
+import { MapContext } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { fontFamily, startPoint } from '@/configs'
 import { AccessibilityColorMap } from '@/constants'
 
 import { Accessibility, Category, Place } from '@/types'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { MapContext } from './map-context'
 
 interface PinProps {
   onClick: (place: Place) => void

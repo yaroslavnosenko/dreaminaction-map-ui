@@ -1,5 +1,3 @@
-import { Category } from '@/types'
-
 import {
   MdAccountBalance,
   MdCoffee,
@@ -10,6 +8,8 @@ import {
   MdShoppingBag,
   MdShoppingCart,
 } from 'react-icons/md'
+
+import { Category } from '@/types'
 
 const iconsMap = {
   [Category.groceries]: <MdShoppingCart size={24} />,

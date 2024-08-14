@@ -14,6 +14,17 @@ export const AccessibilityLabelMap = {
   [Accessibility.unknown]: 'Unknown',
 }
 
+export const CategoryLabelMap = {
+  [Category.food]: 'Food',
+  [Category.drinks]: 'Drinks',
+  [Category.groceries]: 'Groceries',
+  [Category.shopping]: 'Shopping',
+  [Category.sites]: 'Sites',
+  [Category.hotels]: 'Hotels',
+  [Category.health]: 'Health',
+  [Category.transport]: 'Transport',
+}
+
 export const FilterAccessibilityArray = [
   Accessibility.compliant,
   Accessibility.partially_compliant,

@@ -1,6 +1,5 @@
 import { Anchor, Box, Button, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { MdAdd } from 'react-icons/md'
 
 import { DStack } from '@/components/ui'
@@ -10,9 +9,7 @@ import { UserRole } from '@/types'
 
 export default async function Features() {
   const user = await me()
-  if (!user) return redirect('/auth/logout')
-  const isAdmin = user.role === UserRole.admin
-
+  const isAdmin = user!.role === UserRole.admin
   const features = await getFeatures()
 
   return (

@@ -5,25 +5,18 @@ import { MdArrowBack } from 'react-icons/md'
 import { me } from '@/services/auth'
 import { getFeatures } from '@/services/feature'
 import { getPlaceById } from '@/services/place'
-import { UserRole } from '@/types'
+import { PageProps, UserRole } from '@/types'
 import { redirect } from 'next/navigation'
 import { PlaceTabs } from './tabs'
 
-interface PageProps {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
 export default async function SavePlace({ params: { id } }: PageProps) {
   const user = await me()
-  if (!user) {
-    return redirect('/auth/logout')
-  }
   const isCreate = id === 'new'
   const place = await getPlaceById(id)
+  const isAdmin = user?.id === UserRole.admin
 
   if (!isCreate && typeof place === 'number') {
-    return redirect('/account')
+    return redirect('/account/places')
   }
 
   const features = await getFeatures()
@@ -44,7 +37,7 @@ export default async function SavePlace({ params: { id } }: PageProps) {
         <Title order={2}>{isCreate ? 'Create Place' : 'Edit Place'}</Title>
       </Group>
       <PlaceTabs
-        isAdmin={user.role === UserRole.admin}
+        isAdmin={isAdmin}
         allFeatures={features}
         place={typeof place === 'number' ? null : place}
       />

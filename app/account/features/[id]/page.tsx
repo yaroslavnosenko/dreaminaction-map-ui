@@ -1,11 +1,10 @@
-import { getFeatures } from '@/services/feature'
 import { redirect } from 'next/navigation'
+
+import { getFeatures } from '@/services/feature'
+
 import { FeatureForm } from './form'
 
-interface PageProps {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+import { PageProps } from '@/types'
 
 export default async function SaveFeature({ params: { id } }: PageProps) {
   const isCreate = id === 'new'

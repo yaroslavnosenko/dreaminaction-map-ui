@@ -4,6 +4,7 @@ import {
   AccessibilityColorMap,
   AccessibilityLabelMap,
   CategoriesArray,
+  CategoryLabelMap,
   FilterAccessibilityArray,
 } from '@/constants'
 import { Accessibility, Category } from '@/types'
@@ -127,7 +128,7 @@ export const Filter = ({ ...props }: FilterProps) => {
                 key={category}
                 radius="xl"
                 size="md"
-                label={category}
+                label={CategoryLabelMap[category]}
               />
             ))}
           </SimpleGrid>

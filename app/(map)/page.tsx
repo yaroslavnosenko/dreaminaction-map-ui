@@ -4,13 +4,9 @@ import { getMapPlaces } from '@/services/place'
 
 import { ContextResolver } from '@/components/map'
 import { PlaceList } from '@/components/place'
-import { Accessibility, Category } from '@/types'
-import classes from './layout.module.css'
 
-interface PageProps {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+import { Accessibility, Category, PageProps } from '@/types'
+import classes from './layout.module.css'
 
 export default async function MapListPage({ searchParams }: PageProps) {
   const searchCat = searchParams['categories'] as string | undefined
@@ -29,7 +25,7 @@ export default async function MapListPage({ searchParams }: PageProps) {
     <Box component="main" className={classes['main']}>
       <ContextResolver places={places} />
       <Group h={56} mb="2xl" justify="space-between">
-        <Title order={2}>New York</Title>
+        <Title order={2}>Ужгород</Title>
         <Title opacity={0.7} order={2} fw="normal">
           {places.length}
         </Title>

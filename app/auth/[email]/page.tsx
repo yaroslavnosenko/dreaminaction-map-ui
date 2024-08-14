@@ -22,13 +22,13 @@ import { onValidateOtp } from './actions'
 export default function AuthEmail() {
   const { email } = useParams()
   const { register, handleSubmit, setValue } = useForm<OtpValidateInput>()
+
   useEffect(() => {
     setValue('email', decodeURIComponent(email as string))
-  }, [email])
+  }, [email, setValue])
 
   const onSubmit = async (data: OtpValidateInput) => {
-    const res = await onValidateOtp(data)
-    console.log(res)
+    await onValidateOtp(data)
   }
 
   return (

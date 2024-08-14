@@ -1,12 +1,14 @@
 'use client'
 
-import { PlaceIcon } from '@/components/place'
-import { DStack } from '@/components/ui'
-import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
-import { Accessibility, Category, Place } from '@/types'
 import { Box, Group, Text, Title } from '@mantine/core'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { MdAccessibleForward } from 'react-icons/md'
+
+import { PlaceIcon } from '@/components/place'
+import { DStack } from '@/components/ui'
+import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
+
+import { Accessibility, Category, Place } from '@/types'
 
 type PlaceItemProps = {
   place: Place

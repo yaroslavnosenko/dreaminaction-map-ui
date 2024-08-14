@@ -1,5 +1,6 @@
-import { MantineSpacing, Stack, StackProps } from '@mantine/core'
 import React, { PropsWithChildren } from 'react'
+
+import { MantineSpacing, Stack, StackProps } from '@mantine/core'
 
 type DStackProps = {
   divider: React.ReactElement<{ my?: MantineSpacing }>

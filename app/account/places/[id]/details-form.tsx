@@ -2,6 +2,7 @@ import {
   AccessibilityArray,
   AccessibilityLabelMap,
   CategoriesArray,
+  CategoryLabelMap,
 } from '@/constants'
 import { Place, PlaceInput } from '@/types'
 import {
@@ -68,7 +69,7 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
           size="md"
           data={[
             ...CategoriesArray.map((category) => ({
-              label: category,
+              label: CategoryLabelMap[category],
               value: category,
             })),
           ]}

@@ -1,7 +1,8 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import { useRouter, useSearchParams } from 'next/navigation'
+
+import { Button } from '@mantine/core'
 import { MdOutlineArrowBack } from 'react-icons/md'
 
 export const BackButton = () => {
