@@ -9,7 +9,7 @@ import { UserRole } from '@/types'
 
 export default async function Features() {
   const user = await me()
-  const isAdmin = user!.role === UserRole.admin
+  const isAdmin = user?.role === UserRole.admin
   const features = await getFeatures()
 
   return (

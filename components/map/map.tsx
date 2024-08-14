@@ -61,7 +61,7 @@ export const Map = () => {
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       localFontFamily={fontFamily}
       style={{ width: '100%', height: '100%' }}
-      mapStyle="mapbox://styles/mapbox/light-v11"
+      mapStyle="mapbox://styles/mapbox/navigation-day-v1"
       onLoad={() => {
         document
           .querySelector('button.mapboxgl-ctrl-attrib-button')
