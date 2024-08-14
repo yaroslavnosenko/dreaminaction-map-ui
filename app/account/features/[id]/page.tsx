@@ -1,4 +1,4 @@
-import { getFeatures } from '@/services'
+import { getFeatures } from '@/services/feature'
 import { redirect } from 'next/navigation'
 import { FeatureForm } from './form'
 

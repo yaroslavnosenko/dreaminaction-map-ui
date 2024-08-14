@@ -1,10 +1,9 @@
 import { Box, Group, Text, Title } from '@mantine/core'
 
-import { getAuth, getPlacesByBounce } from '@/services'
+import { getMapPlaces } from '@/services/place'
 
 import { ContextResolver } from '@/components/map'
 import { PlaceList } from '@/components/place'
-import { initBounds } from '@/configs'
 import { Accessibility, Category } from '@/types'
 import classes from './layout.module.css'
 
@@ -14,8 +13,6 @@ interface PageProps {
 }
 
 export default async function MapListPage({ searchParams }: PageProps) {
-  const bounds = initBounds
-
   const searchCat = searchParams['categories'] as string | undefined
   const categories: Category[] | undefined = !searchCat
     ? undefined
@@ -26,17 +23,11 @@ export default async function MapListPage({ searchParams }: PageProps) {
     ? undefined
     : (searchAcc.split(',').map((acc) => parseInt(acc, 10)) as Accessibility[])
 
-  let places = bounds
-    ? await getPlacesByBounce(bounds, categories, accessibilities)
-    : []
-  if (typeof places === 'number') {
-    places = []
-  }
-  const token = getAuth()
+  const places = await getMapPlaces(categories, accessibilities)
 
   return (
     <Box component="main" className={classes['main']}>
-      <ContextResolver places={places} auth={!!token} />
+      <ContextResolver places={places} />
       <Group h={56} mb="2xl" justify="space-between">
         <Title order={2}>New York</Title>
         <Title opacity={0.7} order={2} fw="normal">

@@ -1,70 +1,58 @@
 import { revalidateTag } from 'next/cache'
 
 import { server } from '@/configs'
-import { getAuth } from '@/services'
-import { ID, User, UserRole } from '@/types'
+import { getToken } from '@/services/auth'
+import { ID, User, UserInput, UserRole } from '@/types'
 
-export const getUser = async (id: string): Promise<User | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/users/' + id, {
+export const getUsers = async (): Promise<User[] | number> => {
+  const req = await fetch(server + '/users', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     next: {
       tags: ['users'],
     },
   })
-  return res.ok ? ((await res.json()) as User) : res.status
+  return req.ok ? await req.json() : req.status
 }
 
-export const getUsers = async (query?: string): Promise<User[] | number> => {
-  const token = getAuth()
-  const search = new URLSearchParams()
-  if (query) {
-    search.set('query', query)
-  } else {
-    search.delete('query')
-  }
-  const res = await fetch(server + '/users?' + search.toString(), {
+export const createUser = async (input: UserInput): Promise<ID | number> => {
+  revalidateTag('users')
+  const req = await fetch(server + '/users', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
-    next: {
-      tags: ['users'],
-    },
+    method: 'POST',
+    body: JSON.stringify(input),
   })
-
-  return res.ok ? ((await res.json()) as User[]) : res.status
+  return req.ok ? await req.json() : req.status
 }
 
 export const setRole = async (
   id: string,
   role: UserRole
 ): Promise<ID | number> => {
-  const token = getAuth()
+  revalidateTag('users')
   const res = await fetch(server + '/users/' + id + '/role', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'PUT',
     body: JSON.stringify({ role }),
   })
-  revalidateTag('users')
-  return res.ok ? ((await res.json()) as ID) : res.status
+  return res.ok ? await res.json() : res.status
 }
 
-export const deleteUser = async (id: string): Promise<number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/users/' + id, {
+export const deleteUser = async (id: string) => {
+  revalidateTag('users')
+  await fetch(server + '/users/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'DELETE',
   })
-  revalidateTag('users')
-  return res.status
 }

@@ -1,52 +1,38 @@
-import { Anchor, Box, Flex, Group, Text, Title } from '@mantine/core'
+import { Anchor, Box, Divider, Flex, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 
-import { DStack, SearchInput } from '@/components/ui'
+import { DStack } from '@/components/ui'
 
-import { getAuth, getUser, getUsers } from '@/services'
+import { me } from '@/services/auth'
+import { getUsers } from '@/services/user'
 import { User, UserRole } from '@/types'
-import { parseJwt } from '@/utils'
 import { redirect } from 'next/navigation'
+import { CreateForm } from './create-form'
 import { UserForm } from './form'
 
-interface PageProps {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default async function Users({ searchParams }: PageProps) {
-  const users: User[] | number = await getUsers(searchParams['query'] as string)
-  if (typeof users === 'number') {
-    return redirect('/error')
-  }
-  const token = getAuth()
-  const { uid } = parseJwt(token || '')
-  const user = await getUser(uid)
-  if (typeof user === 'number') {
+export default async function Users() {
+  const user = await me()
+  if (!user || user.role !== UserRole.admin) {
     return redirect('/auth/logout')
   }
-  const isAdmin = user.role === UserRole.admin
-
+  const users: User[] | number = await getUsers()
+  if (typeof users === 'number') {
+    return redirect('/auth/logout')
+  }
   return (
     <Box>
       <Group h={56} mb="xl" justify="space-between">
         <Title order={2}>Users</Title>
       </Group>
-      <SearchInput
-        initValue={searchParams['query'] as string}
-        charsCount={3}
-        size="md"
-        mb="2xl"
-      />
-      <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
-        {users.map(({ id, firstName, lastName, email, role }) => (
+      <CreateForm />
+      <Divider mt="xl" />
+      <DStack divider={<Box h={1} bg="#f1f1f1" />} mt="xl" gap="md">
+        {users.map(({ id, email, role }) => (
           <Flex gap="md" wrap="wrap" key={id}>
             <Anchor component={Link} href={'#'} flex={1}>
-              <Title order={4}>
-                {firstName} {lastName}, <Text component="span">{email}</Text>
-              </Title>
+              <Title order={4}>{email}</Title>
             </Anchor>
-            <UserForm isAdmin={isAdmin} role={role} id={id} />
+            <UserForm role={role} id={id} />
           </Flex>
         ))}
       </DStack>

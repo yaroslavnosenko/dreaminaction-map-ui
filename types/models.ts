@@ -17,8 +17,6 @@ export type User = {
   id: string
   email: string
   role: UserRole
-  firstName?: string
-  lastName?: string
 }
 
 export interface Place {
@@ -31,7 +29,6 @@ export interface Place {
   lng: number
 
   description?: string
-  owner?: User
   availableFeatures?: Feature[]
   unavailableFeatures?: Feature[]
 }

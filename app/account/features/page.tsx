@@ -1,23 +1,19 @@
 import { Anchor, Box, Button, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { MdAdd } from 'react-icons/md'
 
 import { DStack } from '@/components/ui'
-
-import { getAuth, getFeatures, getUser } from '@/services'
+import { me } from '@/services/auth'
+import { getFeatures } from '@/services/feature'
 import { UserRole } from '@/types'
-import { parseJwt } from '@/utils'
-import { redirect } from 'next/navigation'
 
 export default async function Features() {
-  const features = await getFeatures()
-  const token = getAuth()
-  const { uid } = parseJwt(token || '')
-  const user = await getUser(uid)
-  if (typeof user === 'number') {
-    return redirect('/auth/logout')
-  }
+  const user = await me()
+  if (!user) return redirect('/auth/logout')
   const isAdmin = user.role === UserRole.admin
+
+  const features = await getFeatures()
 
   return (
     <Box>

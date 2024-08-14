@@ -2,9 +2,8 @@
 import { revalidateTag } from 'next/cache'
 
 import { server } from '@/configs'
-import { Feature, FeatureInput, ID } from '@/types'
-
-import { getAuth } from './auth'
+import { getToken } from '@/services/auth'
+import { Feature, FeatureInput } from '@/types'
 
 export const getFeatures = async (): Promise<Feature[]> => {
   const res = await fetch(server + '/features', {
@@ -16,48 +15,37 @@ export const getFeatures = async (): Promise<Feature[]> => {
   return await res.json()
 }
 
-export const createFeature = async (
-  data: FeatureInput
-): Promise<ID | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/features', {
+export const createFeature = async (data: FeatureInput) => {
+  revalidateTag('features')
+  await fetch(server + '/features', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'POST',
     body: JSON.stringify(data),
   })
-  revalidateTag('features')
-  return res.ok ? ((await res.json()) as ID) : res.status
 }
 
-export const updateFeature = async (
-  id: string,
-  data: FeatureInput
-): Promise<ID | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/features/' + id, {
+export const updateFeature = async (id: string, data: FeatureInput) => {
+  revalidateTag('features')
+  await fetch(server + '/features/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'PUT',
     body: JSON.stringify(data),
   })
-  revalidateTag('features')
-  return res.ok ? ((await res.json()) as ID) : res.status
 }
 
-export const deleteFeature = async (id: string): Promise<number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/features/' + id, {
+export const deleteFeature = async (id: string) => {
+  revalidateTag('features')
+  await fetch(server + '/features/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'DELETE',
   })
-  revalidateTag('features')
-  return res.status
 }

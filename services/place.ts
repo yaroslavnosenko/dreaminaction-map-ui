@@ -2,168 +2,120 @@
 import { revalidateTag } from 'next/cache'
 
 import { server } from '@/configs'
+import { getToken } from '@/services/auth'
 import {
   Accessibility,
-  Bounds,
   Category,
   FeatureMapping,
   ID,
   Place,
   PlaceInput,
 } from '@/types'
-import { parseJwt } from '@/utils'
-
-import { getAuth } from './auth'
 
 export const getPlaceById = async (id: string): Promise<Place | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/places/' + id, {
+  const req = await fetch(server + '/places/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
     },
     next: { tags: ['places'] },
   })
-  return res.ok ? ((await res.json()) as Place) : res.status
+  return req.ok ? await req.json() : req.status
 }
 
 export const getPlaces = async (
   accessibilities: Accessibility[],
   query?: string
 ): Promise<Place[] | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/places', {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
-    },
-    next: { tags: ['places'] },
-  })
-  return res.ok ? ((await res.json()) as Place[]) : res.status
-}
-
-export const getPlacesByBounce = async (
-  bounds: Bounds,
-  categories?: Category[],
-  accessibilities?: Accessibility[]
-): Promise<Place[] | number> => {
   const search = new URLSearchParams()
-  search.set('swLat', String(bounds.swLat))
-  search.set('swLng', String(bounds.swLng))
-  search.set('neLat', String(bounds.neLat))
-  search.set('neLng', String(bounds.neLng))
-
-  if (categories) {
-    search.set('categories', categories.join(','))
-  }
-
-  if (accessibilities) {
+  if (accessibilities && accessibilities.length !== 0) {
     search.set('accessibilities', accessibilities.join(','))
   }
-
-  const res = await fetch(server + '/places/bounds?' + search.toString(), {
+  if (query) {
+    search.set('query', query)
+  }
+  const req = await fetch(server + '/places?' + search.toString(), {
     headers: {
       'Content-Type': 'application/json',
+      authorization: 'Bearer ' + getToken(),
     },
     next: { tags: ['places'] },
   })
-  return res.ok ? ((await res.json()) as Place[]) : res.status
+  return req.ok ? await req.json() : req.status
 }
 
-export const getMyPlaces = async (): Promise<Place[] | number> => {
-  const token = getAuth()
-  if (!token) {
-    return 403
+export const getMapPlaces = async (
+  categories?: Category[],
+  accessibilities?: Accessibility[]
+): Promise<Place[]> => {
+  const search = new URLSearchParams()
+  if (categories && categories.length !== 0) {
+    search.set('categories', categories.join(','))
   }
-  const { uid } = parseJwt(token)
-  const res = await fetch(server + '/users/' + uid + '/places', {
+  if (accessibilities && accessibilities.length !== 0) {
+    search.set('accessibilities', accessibilities.join(','))
+  }
+  const req = await fetch(server + '/places/map?' + search.toString(), {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
     },
     next: { tags: ['places'] },
   })
-  return res.ok ? ((await res.json()) as Place[]) : res.status
+  return await req.json()
 }
 
 export const createPlace = async (input: PlaceInput): Promise<ID | number> => {
-  const token = getAuth()
+  revalidateTag('places')
   const res = await fetch(server + '/places', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'POST',
     body: JSON.stringify(input),
   })
-  revalidateTag('places')
-  return res.ok ? ((await res.json()) as ID) : res.status
+  return res.ok ? await res.json() : res.status
 }
 
 export const updatePlace = async (
   id: string,
   input: PlaceInput
 ): Promise<ID | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/places/' + id, {
+  revalidateTag('places')
+  const req = await fetch(server + '/places/' + id, {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'PUT',
     body: JSON.stringify(input),
   })
-  revalidateTag('places')
-  return res.ok ? ((await res.json()) as ID) : res.status
-}
-
-export const setPlaceAccessibility = async (
-  id: string,
-  accessibility: Accessibility
-): Promise<ID | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/places/' + id + '/accessibility', {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
-    },
-    method: 'PUT',
-    body: JSON.stringify({ accessibility }),
-  })
-  revalidateTag('places')
-  return res.ok ? ((await res.json()) as ID) : res.status
-}
-
-export const setPlaceOwner = async (
-  placeId: string,
-  id: string
-): Promise<ID | number> => {
-  const token = getAuth()
-  const res = await fetch(server + '/places/' + placeId + '/owner', {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
-    },
-    method: 'PUT',
-    body: JSON.stringify({ id }),
-  })
-  revalidateTag('places')
-  return res.ok ? ((await res.json()) as ID) : res.status
+  return req.ok ? await req.json() : req.status
 }
 
 export const setPlaceFeatures = async (
   id: string,
   features: FeatureMapping[]
 ): Promise<ID | number> => {
-  const token = getAuth()
+  revalidateTag('places')
   const res = await fetch(server + '/places/' + id + '/features', {
     headers: {
       'Content-Type': 'application/json',
-      authorization: 'Bearer ' + token,
+      authorization: 'Bearer ' + getToken(),
     },
     method: 'PUT',
     body: JSON.stringify({ features }),
   })
+  return res.ok ? await res.json() : res.status
+}
+
+export const deletePlace = async (id: string): Promise<number> => {
   revalidateTag('places')
-  return res.ok ? ((await res.json()) as ID) : res.status
+  const req = await fetch(server + '/places/' + id, {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + getToken(),
+    },
+    method: 'DELETE',
+  })
+  return req.status
 }

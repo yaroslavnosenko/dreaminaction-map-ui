@@ -10,10 +10,9 @@ import { onDelete, onSetRole } from './actions'
 type UserFormProps = {
   id: string
   role: UserRole
-  isAdmin: boolean
 }
 
-export const UserForm = ({ role, id, isAdmin }: UserFormProps) => {
+export const UserForm = ({ role, id }: UserFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const handleRoleChange = async (event: ChangeEvent<HTMLSelectElement>) => {
@@ -28,27 +27,24 @@ export const UserForm = ({ role, id, isAdmin }: UserFormProps) => {
   return (
     <Group>
       <NativeSelect
-        disabled={!isAdmin}
         value={role}
         data={[
           { label: 'Admin', value: UserRole.admin },
           { label: 'Manager', value: UserRole.manager },
-          { label: 'User', value: UserRole.user },
         ]}
         onChange={handleRoleChange}
       />
-      {isAdmin && (
-        <ActionIcon
-          onClick={() => setIsModalOpen(true)}
-          className="animated"
-          variant="white"
-          radius="xl"
-          color="red"
-          size="md"
-        >
-          <MdDelete size={24} />
-        </ActionIcon>
-      )}
+
+      <ActionIcon
+        onClick={() => setIsModalOpen(true)}
+        className="animated"
+        variant="white"
+        radius="xl"
+        color="red"
+        size="md"
+      >
+        <MdDelete size={24} />
+      </ActionIcon>
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}

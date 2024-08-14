@@ -1,23 +1,20 @@
 'use server'
 
-import { deleteUser, setRole } from '@/services'
-import { UserRole } from '@/types'
-import { redirect } from 'next/navigation'
+import { createUser, deleteUser, setRole } from '@/services/user'
+import { UserInput, UserRole } from '@/types'
 
 export const onSetRole = async (
   id: string,
   role: UserRole
 ): Promise<UserRole> => {
-  const res = await setRole(id, role)
-  if (typeof res === 'number') {
-    redirect('/error')
-  }
+  await setRole(id, role)
   return role
 }
 
 export const onDelete = async (id: string) => {
-  const res = await deleteUser(id)
-  if (res !== 200) {
-    redirect('/error')
-  }
+  await deleteUser(id)
+}
+
+export const onCreate = async (input: UserInput) => {
+  await createUser(input)
 }

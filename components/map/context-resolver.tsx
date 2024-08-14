@@ -6,16 +6,14 @@ import { MapContext } from './map-context'
 
 type Props = {
   places: Place[]
-  auth: boolean
 }
 
-export const ContextResolver = ({ places, auth }: Props) => {
-  const { setAuth, setPlaces } = useContext(MapContext)
+export const ContextResolver = ({ places }: Props) => {
+  const { setPlaces } = useContext(MapContext)
 
   useEffect(() => {
-    setAuth(auth)
     setPlaces(places)
-  }, [auth, places, setAuth, setPlaces])
+  }, [places, setPlaces])
 
   return null
 }

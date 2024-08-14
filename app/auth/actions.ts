@@ -1,11 +1,9 @@
 'use server'
 
-import { getToken } from '@/services'
-import { cookies } from 'next/headers'
+import { sendOtp } from '@/services/auth'
 import { redirect } from 'next/navigation'
 
-export const onAuth = async (inputToken: string) => {
-  const { token } = await getToken(inputToken as string, 'facebook')
-  cookies().set('auth-token', token)
-  redirect('/account')
+export const onSendOtp = async (email: string) => {
+  await sendOtp({ email })
+  redirect('/auth/' + email)
 }

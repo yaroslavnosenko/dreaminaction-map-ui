@@ -11,9 +11,9 @@ import classes from '../layout.module.css'
 import { ContextResolver } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { BackButton } from '@/components/ui'
-import { initBounds } from '@/configs'
+
 import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
-import { getAuth, getPlaceById, getPlacesByBounce } from '@/services'
+import { getMapPlaces, getPlaceById } from '@/services/place'
 import { Accessibility, Category } from '@/types'
 import { redirect } from 'next/navigation'
 
@@ -41,18 +41,11 @@ export default async function MapPage({
     ? undefined
     : (searchAcc.split(',').map((acc) => parseInt(acc, 10)) as Accessibility[])
 
-  const bounds = initBounds
-  let places = bounds
-    ? await getPlacesByBounce(bounds, categories, accessibilities)
-    : []
-  if (typeof places === 'number') {
-    places = []
-  }
-  const token = getAuth()
+  let places = await getMapPlaces(categories, accessibilities)
 
   return (
     <Box component="main" className={classes['main']}>
-      <ContextResolver places={places} auth={!!token} />
+      <ContextResolver places={places} />
       <Group h={56} mb="2xl" justify="space-between">
         <BackButton />
         <Button

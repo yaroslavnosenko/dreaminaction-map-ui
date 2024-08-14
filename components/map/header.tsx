@@ -3,14 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Anchor, Button, Flex } from '@mantine/core'
-import { useContext } from 'react'
-import { MdOutlineAccountCircle, MdOutlineKey } from 'react-icons/md'
-import { MapContext } from './map-context'
+import { Anchor, Flex } from '@mantine/core'
 
 export const Header = () => {
-  const { auth } = useContext(MapContext)
-
   return (
     <Flex justify="space-between" align="center">
       <Anchor component={Link} href="/" w={56} h={56}>
@@ -23,34 +18,6 @@ export const Header = () => {
           alt={'logo'}
         />
       </Anchor>
-      {!auth && (
-        <Button
-          className="animated"
-          component={Link}
-          color="black"
-          variant="filled"
-          radius="xl"
-          size="md"
-          href="/auth"
-          leftSection={<MdOutlineKey size={24} />}
-        >
-          Sign In
-        </Button>
-      )}
-      {auth && (
-        <Button
-          className="animated"
-          component={Link}
-          color="black"
-          variant="filled"
-          radius="xl"
-          size="md"
-          href="/account"
-          leftSection={<MdOutlineAccountCircle size={24} />}
-        >
-          Profile
-        </Button>
-      )}
     </Flex>
   )
 }
