@@ -6,8 +6,9 @@ import { MdAccessibleForward } from 'react-icons/md'
 
 import { PlaceIcon } from '@/components/place'
 import { DStack } from '@/components/ui'
-import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
+import { AccessibilityColorMap } from '@/constants'
 
+import { t } from '@/i18n'
 import { Accessibility, Category, Place } from '@/types'
 
 type PlaceItemProps = {
@@ -44,7 +45,7 @@ export const PlaceItem = ({ place, onClick }: PlaceItemProps) => {
         >
           <MdAccessibleForward size={24} />
         </Box>
-        <Text>{AccessibilityLabelMap[accessibility]}</Text>
+        <Text>{t('enums.accessibility.' + accessibility)}</Text>
       </Group>
     </Box>
   )

@@ -12,7 +12,8 @@ import { ContextResolver } from '@/components/map'
 import { PlaceIcon } from '@/components/place'
 import { BackButton } from '@/components/ui'
 
-import { AccessibilityColorMap, AccessibilityLabelMap } from '@/constants'
+import { AccessibilityColorMap } from '@/constants'
+import { t } from '@/i18n'
 import { getMapPlaces, getPlaceById } from '@/services/place'
 import { Accessibility, Category } from '@/types'
 import { redirect } from 'next/navigation'
@@ -61,7 +62,7 @@ export default async function MapPage({
           target="_blank"
           rightSection={<MdOutlineDirections size={24} />}
         >
-          Directions
+          {t('labels.directions')}
         </Button>
       </Group>
       <Group gap="sm">
@@ -84,7 +85,7 @@ export default async function MapPage({
         >
           <MdAccessibleForward size={24} />
         </Box>
-        <Text>{AccessibilityLabelMap[place.accessibility]}</Text>
+        <Text>{t('enums.accessibility.' + place.accessibility)}</Text>
       </Group>
       {place.description && (
         <>
@@ -98,7 +99,7 @@ export default async function MapPage({
       {place.availableFeatures && place.unavailableFeatures && (
         <>
           <Title order={4} fw={500}>
-            Features
+            {t('labels.features')}
           </Title>
           <Box my="lg" h={1} bg="#f1f1f1" />
           {place.availableFeatures.map(({ id, name }) => (
@@ -117,7 +118,7 @@ export default async function MapPage({
       )}
       {place.availableFeatures?.length === 0 &&
         place.unavailableFeatures?.length === 0 && (
-          <Text>No features to show</Text>
+          <Text>{t('labels.empty-list')}</Text>
         )}
     </Box>
   )

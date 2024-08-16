@@ -5,6 +5,7 @@ import { getMapPlaces } from '@/services/place'
 import { ContextResolver } from '@/components/map'
 import { PlaceList } from '@/components/place'
 
+import { t } from '@/i18n'
 import { Accessibility, Category, PageProps } from '@/types'
 import classes from './layout.module.css'
 
@@ -31,7 +32,7 @@ export default async function MapListPage({ searchParams }: PageProps) {
         </Title>
       </Group>
       <PlaceList places={places || []} partHref="/" />
-      {places.length === 0 && <Text>No places to show</Text>}
+      {places.length === 0 && <Text>{t('labels.empty-list')}</Text>}
     </Box>
   )
 }

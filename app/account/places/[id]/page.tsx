@@ -2,6 +2,7 @@ import { ActionIcon, Box, Group, Title } from '@mantine/core'
 import Link from 'next/link'
 import { MdArrowBack } from 'react-icons/md'
 
+import { t } from '@/i18n'
 import { me } from '@/services/auth'
 import { getFeatures } from '@/services/feature'
 import { getPlaceById } from '@/services/place'
@@ -13,7 +14,7 @@ export default async function SavePlace({ params: { id } }: PageProps) {
   const user = await me()
   const isCreate = id === 'new'
   const place = await getPlaceById(id)
-  const isAdmin = user?.id === UserRole.admin
+  const isAdmin = user?.role === UserRole.admin
 
   if (!isCreate && typeof place === 'number') {
     return redirect('/account/places')
@@ -34,7 +35,7 @@ export default async function SavePlace({ params: { id } }: PageProps) {
           <MdArrowBack size={24} />
         </ActionIcon>
 
-        <Title order={2}>{isCreate ? 'Create Place' : 'Edit Place'}</Title>
+        <Title order={2}>{isCreate ? t('labels.new') : t('labels.edit')}</Title>
       </Group>
       <PlaceTabs
         isAdmin={isAdmin}

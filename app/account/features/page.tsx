@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { MdAdd } from 'react-icons/md'
 
 import { DStack } from '@/components/ui'
+import { t } from '@/i18n'
 import { me } from '@/services/auth'
 import { getFeatures } from '@/services/feature'
 import { UserRole } from '@/types'
@@ -15,7 +16,7 @@ export default async function Features() {
   return (
     <Box>
       <Group h={56} mb="2xl" justify="space-between">
-        <Title order={2}>Features</Title>
+        <Title order={2}>{t('labels.features')}</Title>
         {isAdmin && (
           <Button
             component={Link}
@@ -25,13 +26,10 @@ export default async function Features() {
             href="/account/features/new"
             className="animated"
           >
-            New
+            {t('labels.new')}
           </Button>
         )}
       </Group>
-      <Title fw="normal" order={4} opacity={0.7}>
-        {features.length} items
-      </Title>
       <Box h={1} bg="#f1f1f1" my="xl" />
       <DStack divider={<Box h={1} bg="#f1f1f1" />} gap="md">
         {features.map(({ id, name }) => (
@@ -44,7 +42,7 @@ export default async function Features() {
           </Anchor>
         ))}
       </DStack>
-      {features.length === 0 && <Text>List is empty</Text>}
+      {features.length === 0 && <Text>{t('labels.empty-list')}</Text>}
     </Box>
   )
 }

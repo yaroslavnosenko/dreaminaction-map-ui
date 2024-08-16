@@ -1,5 +1,6 @@
 'use client'
 
+import { t } from '@/i18n'
 import { Feature, Place } from '@/types'
 import { Box, Tabs, Title } from '@mantine/core'
 import { DetailsForm } from './details-form'
@@ -16,11 +17,11 @@ export const PlaceTabs = ({ place, allFeatures, isAdmin }: PlaceTabsProps) => {
     <Tabs variant="pills" radius="xl" defaultValue="details">
       <Tabs.List>
         <Tabs.Tab value="details">
-          <Title order={5}>Details</Title>
+          <Title order={5}>{t('labels.details')}</Title>
         </Tabs.Tab>
         {place && (
           <Tabs.Tab value="features">
-            <Title order={5}>Features</Title>
+            <Title order={5}>{t('labels.features')}</Title>
           </Tabs.Tab>
         )}
       </Tabs.List>

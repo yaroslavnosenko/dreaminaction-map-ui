@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
+import { t } from '@/i18n'
 import { Button } from '@mantine/core'
 import { MdOutlineArrowBack } from 'react-icons/md'
 
@@ -18,7 +19,7 @@ export const BackButton = () => {
       p={0}
       leftSection={<MdOutlineArrowBack size={24} />}
     >
-      Back
+      {t('labels.back')}
     </Button>
   )
 }

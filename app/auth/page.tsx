@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { t } from '@/i18n'
 import { OtpInput } from '@/types'
 import {
   Anchor,
@@ -38,19 +39,19 @@ export default function Auth() {
           />
         </Anchor>
         <Title mt="md" mb="xl" order={1}>
-          Sign in
+          {t('labels.signin')}
         </Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack my="2xl">
             <TextInput
               required
               size="md"
-              label="Email"
-              placeholder="email@gmail.com"
+              label={t('labels.email')}
+              placeholder="email@mail.com"
               {...register('email', { required: true })}
             />
             <Button size="md" className="animated" type="submit">
-              Send Code
+              {t('labels.send-code')}
             </Button>
           </Stack>
         </form>
@@ -64,7 +65,7 @@ export default function Auth() {
           variant="transparent"
           className="animated"
         >
-          Back to Map
+          {t('labels.back')}
         </Button>
       </Box>
     </Center>

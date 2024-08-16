@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { DStack } from '@/components/ui'
 
+import { t } from '@/i18n'
 import { me } from '@/services/auth'
 import { getUsers } from '@/services/user'
 import { User, UserRole } from '@/types'
@@ -22,7 +23,7 @@ export default async function Users() {
   return (
     <Box>
       <Group h={56} mb="xl" justify="space-between">
-        <Title order={2}>Users</Title>
+        <Title order={2}>{t('labels.users')}</Title>
       </Group>
       <CreateForm />
       <Divider mt="xl" />
@@ -36,7 +37,7 @@ export default async function Users() {
           </Flex>
         ))}
       </DStack>
-      {users.length === 0 && <Text>List is empty</Text>}
+      {users.length === 0 && <Text>{t('labels.empty-list')}</Text>}
     </Box>
   )
 }

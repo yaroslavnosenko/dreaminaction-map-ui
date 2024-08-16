@@ -2,11 +2,10 @@
 
 import {
   AccessibilityColorMap,
-  AccessibilityLabelMap,
   CategoriesArray,
-  CategoryLabelMap,
   FilterAccessibilityArray,
 } from '@/constants'
+import { t } from '@/i18n'
 import { Accessibility, Category } from '@/types'
 import {
   Box,
@@ -104,7 +103,7 @@ export const Filter = ({ ...props }: FilterProps) => {
       </Button>
       {open && (
         <Box mt={{ base: 'lg', xs: '2xl' }}>
-          <Title order={4}>Accessibility</Title>
+          <Title order={4}>{t('labels.accessibility')}</Title>
           <Stack gap="md" mt="lg">
             {FilterAccessibilityArray.map((accessibility) => (
               <Checkbox
@@ -114,12 +113,12 @@ export const Filter = ({ ...props }: FilterProps) => {
                 color={AccessibilityColorMap[accessibility]}
                 key={accessibility}
                 size="md"
-                label={AccessibilityLabelMap[accessibility]}
+                label={t('enums.accessibility.' + accessibility)}
               />
             ))}
           </Stack>
           <Divider my="xl" />
-          <Title order={4}>Categories</Title>
+          <Title order={4}>{t('labels.categories')}</Title>
           <SimpleGrid mt="lg" cols={2} spacing="md">
             {CategoriesArray.map((category) => (
               <Checkbox
@@ -128,7 +127,7 @@ export const Filter = ({ ...props }: FilterProps) => {
                 key={category}
                 radius="xl"
                 size="md"
-                label={CategoryLabelMap[category]}
+                label={t('enums.category.' + category)}
               />
             ))}
           </SimpleGrid>

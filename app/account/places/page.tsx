@@ -1,12 +1,9 @@
-import { Box, Button, Checkbox, Flex, Group, Title } from '@mantine/core'
+import { Box, Button, Checkbox, Flex, Group, Text, Title } from '@mantine/core'
 
 import { PlaceList } from '@/components/place'
 import { SearchInput } from '@/components/ui'
-import {
-  AccessibilityArray,
-  AccessibilityColorMap,
-  AccessibilityLabelMap,
-} from '@/constants'
+import { AccessibilityArray, AccessibilityColorMap } from '@/constants'
+import { t } from '@/i18n'
 import { getPlaces } from '@/services/place'
 import { Accessibility } from '@/types'
 import Link from 'next/link'
@@ -22,7 +19,7 @@ export default async function Places() {
   return (
     <Box>
       <Group h={56} mb="xl" justify="space-between">
-        <Title order={2}>Places</Title>
+        <Title order={2}>{t('labels.places')}</Title>
         <Button
           component={Link}
           size="md"
@@ -31,7 +28,7 @@ export default async function Places() {
           href="/account/places/new"
           className="animated"
         >
-          New
+          {t('labels.new')}
         </Button>
       </Group>
       <SearchInput charsCount={3} size="md" mb="xl" />
@@ -39,16 +36,17 @@ export default async function Places() {
         {AccessibilityArray.map((accessibility) => (
           <Checkbox
             radius="xl"
-            checked={accessibilities.includes(accessibility)}
+            checked={!accessibilities.includes(accessibility)}
             color={AccessibilityColorMap[accessibility]}
+            label={t('enums.accessibility.' + accessibility)}
             key={accessibility}
             size="md"
-            label={AccessibilityLabelMap[accessibility]}
           />
         ))}
       </Flex>
       <Box h={1} bg="#f1f1f1" my="xl" />
       <PlaceList places={places} partHref="/account/places/" />
+      {places.length === 0 && <Text>{t('labels.empty-list')}</Text>}
     </Box>
   )
 }

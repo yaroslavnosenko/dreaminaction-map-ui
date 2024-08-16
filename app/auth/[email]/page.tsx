@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { t } from '@/i18n'
 import { OtpValidateInput } from '@/types'
 import {
   Anchor,
@@ -45,7 +46,7 @@ export default function AuthEmail() {
           />
         </Anchor>
         <Title mt="md" order={1}>
-          Sign in
+          {t('labels.signin')}
         </Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack my="2xl">
@@ -53,7 +54,7 @@ export default function AuthEmail() {
               required
               size="md"
               label="Email"
-              placeholder="email@gmail.com"
+              placeholder="email@email.com"
               disabled
               {...register('email', { required: true })}
             />
@@ -61,7 +62,7 @@ export default function AuthEmail() {
             <TextInput
               required
               size="md"
-              label="Code"
+              label={t('labels.code')}
               minLength={6}
               maxLength={6}
               inputMode="tel"
@@ -70,7 +71,7 @@ export default function AuthEmail() {
             />
 
             <Button size="md" className="animated" type="submit">
-              Validate Code
+              {t('labels.validate-code')}
             </Button>
           </Stack>
         </form>
@@ -83,7 +84,7 @@ export default function AuthEmail() {
           variant="transparent"
           className="animated"
         >
-          Back
+          {t('labels.back')}
         </Button>
       </Box>
     </Center>

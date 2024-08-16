@@ -1,25 +1,19 @@
-import {
-  AccessibilityArray,
-  AccessibilityLabelMap,
-  CategoriesArray,
-  CategoryLabelMap,
-} from '@/constants'
+import { DeleteButton } from '@/components/ui'
+import { AccessibilityArray, CategoriesArray } from '@/constants'
+import { t } from '@/i18n'
 import { Place, PlaceInput } from '@/types'
 import {
   Box,
   Button,
   Group,
-  Modal,
   NativeSelect,
   Stack,
   TextInput,
   Textarea,
 } from '@mantine/core'
 import Link from 'next/link'
-import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { MdDelete, MdOpenInNew } from 'react-icons/md'
-import { toast } from 'react-toastify'
+import { MdOpenInNew } from 'react-icons/md'
 import { onPlaceCreate, onPlaceDelete, onPlaceUpdate } from './actions'
 
 type FormProps = {
@@ -28,8 +22,6 @@ type FormProps = {
 }
 
 export const DetailsForm = ({ place, isAdmin }: FormProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const { register, handleSubmit } = useForm<PlaceInput>({
     values: place ? place : undefined,
   })
@@ -46,7 +38,6 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
     } else {
       await onPlaceUpdate(place.id, updatedData)
     }
-    toast.success('Place saved!')
   }
 
   const handleDelete = async () => {
@@ -59,17 +50,17 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
         <TextInput
           required
           size="md"
-          label="Name"
-          placeholder="Name"
+          label={t('labels.name')}
+          placeholder="..."
           {...register('name')}
         />
         <NativeSelect
           required
-          label="Category"
+          label={t('labels.category')}
           size="md"
           data={[
             ...CategoriesArray.map((category) => ({
-              label: CategoryLabelMap[category],
+              label: t('enums.category.' + category),
               value: category,
             })),
           ]}
@@ -77,11 +68,11 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
         />
         <NativeSelect
           required
-          label="Accessibility"
+          label={t('labels.accessibility')}
           size="md"
           data={[
             ...AccessibilityArray.map((accessibility) => ({
-              label: AccessibilityLabelMap[accessibility],
+              label: t('enums.accessibility.' + accessibility),
               value: String(accessibility),
             })),
           ]}
@@ -90,30 +81,30 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
         <TextInput
           required
           size="md"
-          label="Address"
-          placeholder="Address"
+          label={t('labels.address')}
+          placeholder="..."
           {...register('address')}
         />
         <Group>
           <TextInput
             required
             size="md"
-            label="Latitude"
-            placeholder="Latitude"
+            label={t('labels.lat')}
+            placeholder="0.0"
             {...register('lat')}
           />
           <TextInput
             required
             size="md"
-            label="Longitude"
-            placeholder="Longitude"
+            label={t('labels.lng')}
+            placeholder="0.0"
             {...register('lng')}
           />
         </Group>
         <Textarea
           size="md"
-          label="Description"
-          placeholder="Description"
+          label={t('labels.description')}
+          placeholder="..."
           autosize
           {...register('description')}
         />
@@ -122,7 +113,7 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
 
       <Group>
         <Button type="submit" size="md" radius="xl" className="animated">
-          Save
+          {t('labels.save')}
         </Button>
         {place && (
           <Button
@@ -135,38 +126,11 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
             variant="white"
             target="_blank"
           >
-            Visit
+            {t('labels.visit')}
           </Button>
         )}
-        {place && isAdmin && (
-          <Button
-            size="md"
-            radius="xl"
-            leftSection={<MdDelete size={24} />}
-            className="animated"
-            color="red"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Delete
-          </Button>
-        )}
+        {place && isAdmin && <DeleteButton onConfirm={handleDelete} />}
       </Group>
-      <Modal
-        opened={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        withCloseButton={false}
-        title="Delete Place?"
-        centered
-      >
-        <Group pt={4} justify="flex-end">
-          <Button onClick={() => setIsModalOpen(false)} variant="transparent">
-            Cancel
-          </Button>
-          <Button onClick={handleDelete} color="red">
-            Delete
-          </Button>
-        </Group>
-      </Modal>
     </form>
   )
 }

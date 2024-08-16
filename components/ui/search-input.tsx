@@ -1,6 +1,7 @@
 'use client'
 import { ChangeEvent, useCallback, useState } from 'react'
 
+import { t } from '@/i18n'
 import { Input, InputProps } from '@mantine/core'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -42,7 +43,7 @@ export const SearchInput = ({
     <Input
       value={inputValue}
       onChange={handleChange}
-      placeholder="Search"
+      placeholder={t('labels.search')}
       {...props}
     />
   )

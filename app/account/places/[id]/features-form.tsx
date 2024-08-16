@@ -1,8 +1,8 @@
 import { DStack } from '@/components/ui'
+import { t } from '@/i18n'
 import { Feature, FeatureMapping, Place } from '@/types'
 import { Box, Button, Flex, NativeSelect, Text } from '@mantine/core'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import { onSetFeatures } from './actions'
 
 type FormProps = {
@@ -29,7 +29,6 @@ export const FeaturesForm = ({ place, allFeatures }: FormProps) => {
 
   const handleSubmit = async () => {
     await onSetFeatures(place.id, features)
-    toast.success('Features saved')
   }
 
   return (
@@ -56,8 +55,8 @@ export const FeaturesForm = ({ place, allFeatures }: FormProps) => {
                 size="md"
                 value={value}
                 data={[
-                  { label: 'Yes', value: 'y' },
-                  { label: 'No', value: 'n' },
+                  { label: t('labels.yes'), value: 'y' },
+                  { label: t('labels.no'), value: 'n' },
                   { label: '-', value: 'x' },
                 ]}
                 onChange={(eve) => onChange(id, eve.target.value)}
@@ -68,7 +67,7 @@ export const FeaturesForm = ({ place, allFeatures }: FormProps) => {
       </DStack>
       <Box h={1} bg="#f1f1f1" my="xl" />
       <Button onClick={handleSubmit} size="md" radius="xl" className="animated">
-        Save
+        {t('labels.save')}
       </Button>
     </Box>
   )

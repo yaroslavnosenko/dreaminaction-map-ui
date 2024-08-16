@@ -1,3 +1,4 @@
+import { t } from '@/i18n'
 import { Anchor, Box, BoxProps, Stack } from '@mantine/core'
 import Link from 'next/link'
 
@@ -6,14 +7,14 @@ export const Footer = ({ ...props }: BoxProps) => {
     <Box {...props}>
       <Stack>
         <Anchor component={Link} href="https://dreaminaction.info/">
-          Home
+          {t('labels.home')}
         </Anchor>
         <Anchor
           w="auto"
           component={Link}
           href="https://dreaminaction.info/map-help"
         >
-          Help
+          {t('labels.help')}
         </Anchor>
       </Stack>
     </Box>
