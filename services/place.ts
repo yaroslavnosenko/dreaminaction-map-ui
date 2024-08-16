@@ -17,7 +17,7 @@ export const getPlaceById = async (id: string): Promise<Place | number> => {
     headers: {
       'Content-Type': 'application/json',
     },
-    next: { tags: ['places'] },
+    next: { tags: ['places'], revalidate: 20 },
   })
   return req.ok ? await req.json() : req.status
 }
@@ -38,7 +38,7 @@ export const getPlaces = async (
       'Content-Type': 'application/json',
       authorization: 'Bearer ' + getToken(),
     },
-    next: { tags: ['places'] },
+    next: { tags: ['places'], revalidate: 20 },
   })
   return req.ok ? await req.json() : req.status
 }
@@ -58,7 +58,7 @@ export const getMapPlaces = async (
     headers: {
       'Content-Type': 'application/json',
     },
-    next: { tags: ['places'] },
+    next: { tags: ['places'], revalidate: 20 },
   })
   return await req.json()
 }
