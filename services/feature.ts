@@ -6,13 +6,14 @@ import { getToken } from '@/services/auth'
 import { Feature, FeatureInput } from '@/types'
 
 export const getFeatures = async (): Promise<Feature[]> => {
-  const res = await fetch(server + '/features', {
+  const req = await fetch(server + '/features', {
     headers: {
       'Content-Type': 'application/json',
     },
     next: { tags: ['features'] },
   })
-  return await res.json()
+  console.log(req)
+  return await req.json()
 }
 
 export const createFeature = async (data: FeatureInput) => {

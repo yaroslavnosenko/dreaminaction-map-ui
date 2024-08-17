@@ -12,6 +12,7 @@ export const me = async (): Promise<User | null> => {
       },
       cache: 'no-cache',
     })
+    console.log(req)
     const data = await req.json()
     return data as User
   } catch {
@@ -32,14 +33,15 @@ export const sendOtp = async (input: OtpInput) => {
 export const validateOtp = async (
   input: OtpValidateInput
 ): Promise<Token | number> => {
-  const res = await fetch(server + '/auth/otp/validate', {
+  const req = await fetch(server + '/auth/otp/validate', {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify(input),
   })
-  return res.ok ? await res.json() : res.status
+  console.log(req)
+  return req.ok ? await req.json() : req.status
 }
 
 export const getToken = (): string | null => {

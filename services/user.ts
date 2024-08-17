@@ -14,6 +14,7 @@ export const getUsers = async (): Promise<User[] | number> => {
       tags: ['users'],
     },
   })
+  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -27,6 +28,7 @@ export const createUser = async (input: UserInput): Promise<ID | number> => {
     method: 'POST',
     body: JSON.stringify(input),
   })
+  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -35,7 +37,7 @@ export const setRole = async (
   role: UserRole
 ): Promise<ID | number> => {
   revalidateTag('users')
-  const res = await fetch(server + '/users/' + id + '/role', {
+  const req = await fetch(server + '/users/' + id + '/role', {
     headers: {
       'Content-Type': 'application/json',
       authorization: 'Bearer ' + getToken(),
@@ -43,7 +45,8 @@ export const setRole = async (
     method: 'PUT',
     body: JSON.stringify({ role }),
   })
-  return res.ok ? await res.json() : res.status
+  console.log(req)
+  return req.ok ? await req.json() : req.status
 }
 
 export const deleteUser = async (id: string) => {

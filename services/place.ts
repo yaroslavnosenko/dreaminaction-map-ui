@@ -40,6 +40,7 @@ export const getPlaces = async (
     },
     next: { tags: ['places'], revalidate: 20 },
   })
+  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -60,12 +61,13 @@ export const getMapPlaces = async (
     },
     next: { tags: ['places'], revalidate: 20 },
   })
+  console.log(req)
   return await req.json()
 }
 
 export const createPlace = async (input: PlaceInput): Promise<ID | number> => {
   revalidateTag('places')
-  const res = await fetch(server + '/places', {
+  const req = await fetch(server + '/places', {
     headers: {
       'Content-Type': 'application/json',
       authorization: 'Bearer ' + getToken(),
@@ -73,7 +75,8 @@ export const createPlace = async (input: PlaceInput): Promise<ID | number> => {
     method: 'POST',
     body: JSON.stringify(input),
   })
-  return res.ok ? await res.json() : res.status
+  console.log(req)
+  return req.ok ? await req.json() : req.status
 }
 
 export const updatePlace = async (
@@ -89,6 +92,7 @@ export const updatePlace = async (
     method: 'PUT',
     body: JSON.stringify(input),
   })
+  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -97,7 +101,7 @@ export const setPlaceFeatures = async (
   features: FeatureMapping[]
 ): Promise<ID | number> => {
   revalidateTag('places')
-  const res = await fetch(server + '/places/' + id + '/features', {
+  const req = await fetch(server + '/places/' + id + '/features', {
     headers: {
       'Content-Type': 'application/json',
       authorization: 'Bearer ' + getToken(),
@@ -105,7 +109,8 @@ export const setPlaceFeatures = async (
     method: 'PUT',
     body: JSON.stringify({ features }),
   })
-  return res.ok ? await res.json() : res.status
+  console.log(req)
+  return req.ok ? await req.json() : req.status
 }
 
 export const deletePlace = async (id: string): Promise<number> => {
@@ -117,5 +122,6 @@ export const deletePlace = async (id: string): Promise<number> => {
     },
     method: 'DELETE',
   })
+  console.log(req)
   return req.status
 }
