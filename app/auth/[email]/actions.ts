@@ -12,7 +12,7 @@ export const onValidateOtp = async (input: OtpValidateInput) => {
   }
   cookies().set('auth-token', res.token, {
     expires: Date.now() + 259200,
-    sameSite: 'none',
+    sameSite: 'lax',
     secure: true,
     httpOnly: true,
     path: '/',
