@@ -10,5 +10,11 @@ export const onValidateOtp = async (input: OtpValidateInput) => {
   if (typeof res === 'number') {
     return redirect('/auth')
   }
-  cookies().set('auth-token', res.token, { expires: Date.now() + 259200 })
+  cookies().set('auth-token', res.token, {
+    expires: Date.now() + 259200,
+    sameSite: 'none',
+    secure: true,
+    httpOnly: true,
+    path: '/',
+  })
 }
