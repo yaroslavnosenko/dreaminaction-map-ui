@@ -10,6 +10,7 @@ export const me = async (): Promise<User | null> => {
         'Content-Type': 'application/json',
         authorization: 'Bearer ' + getToken(),
       },
+      cache: 'no-cache',
     })
     const data = await req.json()
     return data as User
