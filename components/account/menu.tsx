@@ -27,7 +27,7 @@ export const Menu = ({ isAdmin }: MenuProps) => {
       <Anchor component={Link} href="/">
         <Title order={4}>{t('labels.back-to-map')}</Title>
       </Anchor>
-      <Anchor component={Link} href="/auth/logout">
+      <Anchor component={Link} href="/auth/logout" prefetch={false}>
         <Title c="red" order={4}>
           {t('labels.logout')}
         </Title>
