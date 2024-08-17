@@ -12,7 +12,6 @@ export const getFeatures = async (): Promise<Feature[]> => {
     },
     next: { tags: ['features'] },
   })
-  console.log(req)
   return await req.json()
 }
 

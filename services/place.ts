@@ -40,7 +40,6 @@ export const getPlaces = async (
     },
     next: { tags: ['places'], revalidate: 20 },
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -61,7 +60,6 @@ export const getMapPlaces = async (
     },
     next: { tags: ['places'], revalidate: 20 },
   })
-  console.log(req)
   return await req.json()
 }
 
@@ -75,7 +73,6 @@ export const createPlace = async (input: PlaceInput): Promise<ID | number> => {
     method: 'POST',
     body: JSON.stringify(input),
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -92,7 +89,6 @@ export const updatePlace = async (
     method: 'PUT',
     body: JSON.stringify(input),
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -109,7 +105,6 @@ export const setPlaceFeatures = async (
     method: 'PUT',
     body: JSON.stringify({ features }),
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -122,6 +117,5 @@ export const deletePlace = async (id: string): Promise<number> => {
     },
     method: 'DELETE',
   })
-  console.log(req)
   return req.status
 }

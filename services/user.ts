@@ -14,7 +14,6 @@ export const getUsers = async (): Promise<User[] | number> => {
       tags: ['users'],
     },
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -28,7 +27,6 @@ export const createUser = async (input: UserInput): Promise<ID | number> => {
     method: 'POST',
     body: JSON.stringify(input),
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
@@ -45,7 +43,6 @@ export const setRole = async (
     method: 'PUT',
     body: JSON.stringify({ role }),
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 

@@ -12,7 +12,6 @@ export const me = async (): Promise<User | null> => {
       },
       cache: 'no-cache',
     })
-    console.log(req)
     const data = await req.json()
     return data as User
   } catch {
@@ -40,7 +39,6 @@ export const validateOtp = async (
     method: 'POST',
     body: JSON.stringify(input),
   })
-  console.log(req)
   return req.ok ? await req.json() : req.status
 }
 
