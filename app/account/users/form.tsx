@@ -16,11 +16,12 @@ type UserFormProps = {
 export const UserForm = ({ role, id }: UserFormProps) => {
   const handleRoleChange = async (event: ChangeEvent<HTMLSelectElement>) => {
     await onSetRole(id, event.target.value as UserRole)
-    toast.success('Role changed')
+    toast.success(t('messages.saved'))
   }
 
   const handleDelete = async () => {
     await onDelete(id)
+    toast.success(t('messages.removed'))
   }
 
   return (

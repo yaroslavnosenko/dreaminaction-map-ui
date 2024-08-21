@@ -14,6 +14,7 @@ import {
 import Link from 'next/link'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MdOpenInNew } from 'react-icons/md'
+import { toast } from 'react-toastify'
 import { onPlaceCreate, onPlaceDelete, onPlaceUpdate } from './actions'
 
 type FormProps = {
@@ -38,10 +39,12 @@ export const DetailsForm = ({ place, isAdmin }: FormProps) => {
     } else {
       await onPlaceUpdate(place.id, updatedData)
     }
+    toast.success(t('messages.saved'))
   }
 
   const handleDelete = async () => {
     await onPlaceDelete(place?.id!)
+    toast.success(t('messages.removed'))
   }
 
   return (

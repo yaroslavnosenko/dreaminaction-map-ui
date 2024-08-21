@@ -25,7 +25,7 @@ export default function RootLayout({
       <body>
         <MantineProvider theme={theme}>
           {children}
-          <ToastContainer />
+          <ToastContainer theme="colored" />
         </MantineProvider>
       </body>
     </html>

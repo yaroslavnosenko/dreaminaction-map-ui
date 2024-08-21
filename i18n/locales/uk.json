@@ -55,5 +55,9 @@
     "code": "Код",
     "validate-code": "Продовжити",
     "send-code": "Відправити"
+  },
+  "messages": {
+    "saved": "Збережено",
+    "removed": "Видалено"
   }
 }

@@ -5,6 +5,7 @@ import { UserInput, UserRole } from '@/types'
 import { Button, Group, TextInput } from '@mantine/core'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { onCreate } from './actions'
 
 export const CreateForm = () => {
@@ -17,6 +18,7 @@ export const CreateForm = () => {
   const onSubmit = async (data: UserInput) => {
     await onCreate(data)
     setValue('email', '')
+    toast.success(t('messages.saved'))
   }
 
   return (

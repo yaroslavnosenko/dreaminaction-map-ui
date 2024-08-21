@@ -3,6 +3,7 @@ import { t } from '@/i18n'
 import { Feature, FeatureMapping, Place } from '@/types'
 import { Box, Button, Flex, NativeSelect, Text } from '@mantine/core'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { onSetFeatures } from './actions'
 
 type FormProps = {
@@ -29,6 +30,7 @@ export const FeaturesForm = ({ place, allFeatures }: FormProps) => {
 
   const handleSubmit = async () => {
     await onSetFeatures(place.id, features)
+    toast.success(t('messages.saved'))
   }
 
   return (

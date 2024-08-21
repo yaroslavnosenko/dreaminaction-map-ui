@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MdArrowBack } from 'react-icons/md'
+import { toast } from 'react-toastify'
 import { onCreate, onDelete, onUpdate } from './actions'
 
 type FeatureFormProps = {
@@ -32,9 +33,13 @@ export const FeatureForm = ({ isCreate, feature }: FeatureFormProps) => {
     } else {
       await onUpdate(feature?.id!, input)
     }
+    toast.success(t('messages.saved'))
   }
 
-  const handleDelete = () => onDelete(feature?.id!)
+  const handleDelete = async () => {
+    await onDelete(feature?.id!)
+    toast.success(t('messages.removed'))
+  }
 
   useEffect(() => {
     if (feature) setValue('name', feature.name)
