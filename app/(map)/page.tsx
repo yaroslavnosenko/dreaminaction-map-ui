@@ -26,10 +26,7 @@ export default async function MapListPage({ searchParams }: PageProps) {
     <Box component="main" className={classes['main']}>
       <ContextResolver places={places} />
       <Group h={56} mb="2xl" justify="space-between">
-        <Title order={2}>Ужгород</Title>
-        <Title opacity={0.7} order={2} fw="normal">
-          {places.length}
-        </Title>
+        <Title order={2}>Карта доступності м. Ужгород</Title>
       </Group>
       <PlaceList places={places || []} partHref="/" />
       {places.length === 0 && <Text>{t('labels.empty-list')}</Text>}
