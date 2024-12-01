@@ -1,4 +1,4 @@
-import { Box, Button, Group, Text, Title } from '@mantine/core'
+import { Anchor, Box, Button, Group, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 import {
   MdAccessibleForward,
@@ -120,6 +120,15 @@ export default async function MapPage({
         place.unavailableFeatures?.length === 0 && (
           <Text>{t('labels.empty-list')}</Text>
         )}
+
+      <Box my="lg" h={1} bg="#f1f1f1" />
+      <Anchor
+        href="https://www.dreaminaction.info/contacts/"
+        underline="always"
+        target="_blank"
+      >
+        {t('labels.support-help')}
+      </Anchor>
     </Box>
   )
 }

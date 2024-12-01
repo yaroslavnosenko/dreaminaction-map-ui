@@ -1,8 +1,8 @@
 {
   "enums": {
     "category": {
-      "food": "Їжа",
-      "drinks": "Кафе",
+      "food": "Рестобари",
+      "drinks": "Спорт",
       "groceries": "Продукти",
       "shopping": "Шопінг",
       "health": "Здоровʼя",
@@ -54,7 +54,8 @@
     "signin": "Вхід",
     "code": "Код",
     "validate-code": "Продовжити",
-    "send-code": "Відправити"
+    "send-code": "Відправити",
+    "support-help": "Якщо Ви помітили помилку повідомте нас за цим посиланням."
   },
   "messages": {
     "saved": "Збережено",
