@@ -5,12 +5,14 @@ export enum UserRole {
 
 export enum Category {
   food = 'food',
-  drinks = 'drinks',
+  sport = 'sport',
   groceries = 'groceries',
   shopping = 'shopping',
   health = 'health',
   hotels = 'hotels',
   transport = 'transport',
+  culture = 'culture',
+  government = 'government',
   sites = 'sites',
 }
 

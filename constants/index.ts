@@ -16,13 +16,15 @@ export const AccessibilityLabelMap = {
 
 export const CategoryLabelMap = {
   [Category.food]: 'Food',
-  [Category.drinks]: 'Drinks',
+  [Category.sport]: 'Sport',
   [Category.groceries]: 'Groceries',
   [Category.shopping]: 'Shopping',
   [Category.sites]: 'Sites',
   [Category.hotels]: 'Hotels',
   [Category.health]: 'Health',
   [Category.transport]: 'Transport',
+  [Category.culture]: 'Culture',
+  [Category.government]: 'Government',
 }
 
 export const FilterAccessibilityArray = [
@@ -38,11 +40,13 @@ export const AccessibilityArray = [
 
 export const CategoriesArray = [
   Category.food,
-  Category.drinks,
+  Category.sport,
   Category.groceries,
   Category.shopping,
   Category.sites,
   Category.hotels,
   Category.health,
   Category.transport,
+  Category.government,
+  Category.culture,
 ]

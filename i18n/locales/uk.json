@@ -2,12 +2,14 @@
   "enums": {
     "category": {
       "food": "Рестобари",
-      "drinks": "Спорт",
+      "sport": "Спорт",
       "groceries": "Продукти",
       "shopping": "Шопінг",
       "health": "Здоровʼя",
       "hotels": "Готелі",
       "transport": "Транспорт",
+      "culture": "Культура",
+      "government": "Уряд",
       "sites": "Інше"
     },
     "accessibility": {
