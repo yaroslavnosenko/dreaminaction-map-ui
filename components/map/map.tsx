@@ -34,6 +34,7 @@ const Pin = ({ place, active, onClick }: PinProps) => {
       longitude={lng}
       latitude={lat}
       anchor="center"
+      style={{ zIndex: active ? 1 : 0 }}
     >
       <Paper
         className="animated"
